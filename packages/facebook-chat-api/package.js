@@ -10,5 +10,5 @@ Npm.depends({
 
 Package.on_use(function (api) {
   api.add_files('index.js', 'server');
-  api.export('fbLogin');
+  api.export('facebook');
 });

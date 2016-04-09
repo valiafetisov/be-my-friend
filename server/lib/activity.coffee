@@ -1,6 +1,6 @@
 @Activity = {
 
-  saveAll: Meteor.bindEnvironment (array)->
+  saveAll: (array)->
     if !array? or !_.isArray(array) or array.length < 0 then return
     array.forEach (user, index)->
       Activity.save(user)
@@ -11,7 +11,7 @@
     if prev?
       # console.log "already saved"
       return
-    console.log "new activity to save", user
+    console.log "new activity:", user.status, "\t", user.userID
     Activities.insert user
 
 }

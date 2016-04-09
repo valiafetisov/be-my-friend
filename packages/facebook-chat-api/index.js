@@ -1,1 +1,1 @@
-fbLogin = Npm.require("facebook-chat-api");
+facebook = Npm.require("facebook-chat-api");

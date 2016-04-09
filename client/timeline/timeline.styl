@@ -1,0 +1,25 @@
+.timeline
+
+  position relative
+  width 100%
+  height 100vh
+
+  .point
+    position absolute
+    // float left
+    top 0
+    left 50%
+    overflow hidden
+    width 1px
+    // margin 1px 1px 0 0
+    height 100%
+    // border-radius 100%
+
+    background-color black
+    color white
+
+
+    &.active
+      background-color green
+    &.offline
+      background-color red

@@ -1,4 +1,3 @@
-autopublish@1.0.4
 autoupdate@1.2.4
 babel-compiler@5.8.24_1
 babel-runtime@0.1.4
@@ -41,8 +40,11 @@ minifiers@1.1.7
 minimongo@1.0.10
 mobile-experience@1.0.1
 mobile-status-bar@1.0.6
+momentjs:moment@2.12.0
 mongo@1.1.3
 mongo-id@1.0.1
+mquandalle:jade@0.4.9
+mquandalle:jade-compiler@0.4.5
 mrt:cron@0.0.1
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
@@ -58,6 +60,7 @@ session@1.1.1
 spacebars@1.0.7
 spacebars-compiler@1.0.7
 standard-minifiers@1.0.2
+stolinski:stylus-multi@1.4.3
 templating@1.1.5
 templating-tools@1.0.0
 tracker@1.0.9
