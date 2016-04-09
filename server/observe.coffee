@@ -37,6 +37,18 @@ onFacebookLogin = (error, api)->
     getOnlineUsers(api)
   , 30000
 
+  getFriendsList(api)
+
+
+#
+#
+#
+getFriendsList = (api)->
+  api.getFriendsList Meteor.bindEnvironment (error, array)->
+    if error then return console.error "getFriendsList error:", error
+    # console.log "getFriendsList", array
+    Friend.saveAll(array)
+
 
 #
 # Get list of online users
