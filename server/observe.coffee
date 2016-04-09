@@ -8,7 +8,7 @@ Meteor.startup ->
 loginToFacebook = (relogin)->
 
   latest = Logins.findOne {}, {sort: {createdAt: -1}}
-  if latest?.appState? or relogin
+  if latest?.appState? and relogin isnt true
     facebook {
       appState: latest.appState
     }, Meteor.bindEnvironment onFacebookLogin
@@ -45,7 +45,7 @@ onFacebookLogin = (error, api)->
 #
 getFriendsList = (api)->
   api.getFriendsList Meteor.bindEnvironment (error, array)->
-    if error then return console.error "getFriendsList error:", error
+    if error or !array? then return console.error "getFriendsList error:", error
     # console.log "getFriendsList", array
     Friend.saveAll(array)
 

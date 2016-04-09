@@ -6,7 +6,7 @@
     if !array? or !_.isArray(array) or array.length < 0 then return
 
     array.forEach (user, index)->
-      Friend.save(user)
+      Friend.save user
 
 
   save: (user)->
@@ -15,8 +15,7 @@
 
     prev = Friends.findOne {userID: user.userID}
     if prev?
-      Friends.update user
-      return
+      return Friends.update prev._id, {'$set': user}
 
     console.log "new friend:", user.userID, "\t\t", user.fullName
     Friends.insert user

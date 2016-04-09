@@ -15,3 +15,9 @@ Meteor.publish 'points', (limits)->
 
   console.log 'oneDayActivity', oneDayActivity.count()
   return oneDayActivity
+
+
+Meteor.publish null, (query, limit)->
+
+  return Friends.find {userID: '552968934'}, {limit: limit}
+
