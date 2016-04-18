@@ -34,6 +34,7 @@ onFacebookLogin = (error, api)->
   if appState?
     Logins.insert {appState: appState, createdAt: new Date()}
 
+  getOnlineUsers(api)
   Meteor.setInterval ->
     getOnlineUsers(api)
   , 30000

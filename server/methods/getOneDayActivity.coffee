@@ -9,14 +9,12 @@ Meteor.methods {
       {},
       {
         sort: {fullName: 1}
-        limit: 100
+        # limit: 100
       }
     ).fetch()
     ret.data = []
     friends.forEach (each)-> ret.data.push {userID: each.userID, label: each.fullName}
-    # if !ids? or ids.length is 0 then return
-    # console.log 'data', ret.data
-    # return
+
 
     if !limits?
       limits = {}
@@ -28,13 +26,13 @@ Meteor.methods {
 
     ids = ret.data.map (each)-> each.userID
 
-    oneDayActivity = Activities.find({
+    oneDayActivity = Periods.find({
       userID: {$in: ids}
       lastActive: {
         $gte: limits.start
         $lt: limits.stop
       }
-      # status: 'offline'
+      finished: true
     }, {
       sort: {lastActive: 1}
       # limit: 1000
@@ -50,9 +48,9 @@ Meteor.methods {
         if each.userID is eachPoint.userID
           obj = {
             # type: Symbol()
-            from: moment(each.lastActive).toDate()
-            to: moment(each.createdAt).toDate()
-            status: each.status
+            from: moment(eachPoint.firstActive).toDate()
+            to: moment(eachPoint.lastActive).toDate()
+            # status: eachPoint.status
           }
           # if each.createdAt?
           #   obj.to = moment(each.createdAt).toDate()
@@ -62,7 +60,7 @@ Meteor.methods {
 
       return each
 
-    console.log 'oneDayActivity', ret.data
+    # console.log 'oneDayActivity', ret.data
     console.log "getOneDayActivity stop", new Date()
 
     return ret

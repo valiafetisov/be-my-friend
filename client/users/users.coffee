@@ -26,7 +26,8 @@ Template.users.onRendered ->
     res.data.map (each)->
       if !each.data? then return each
       return each.data.map (eacheach)->
-        return eacheach.type = TimelineChart.TYPE.INTERVAL
+        eacheach.type = TimelineChart.TYPE.INTERVAL
+        return eacheach
 
     console.log 'res.data', res.data
 
