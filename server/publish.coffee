@@ -1,23 +1,23 @@
-Meteor.publish 'points', (limits)->
+# Meteor.publish 'points', (limits)->
 
-  if !limits? or !limits.start? or !limits.stop?
-    @ready
-    return []
+#   if !limits? or !limits.start? or !limits.stop?
+#     @ready
+#     return []
 
-  oneDayActivity = Activities.find {
-    lastActive: {
-      $gte: limits.start
-      $lt: limits.stop
-    }
-  }, {
-    sort: {lastActive: 1}
-  }
+#   oneDayActivity = Activities.find {
+#     lastActive: {
+#       $gte: limits.start
+#       $lt: limits.stop
+#     }
+#   }, {
+#     sort: {lastActive: 1}
+#   }
 
-  console.log 'oneDayActivity', oneDayActivity.count()
-  return oneDayActivity
+#   # console.log 'oneDayActivity', oneDayActivity.count()
+#   return oneDayActivity
 
 
-Meteor.publish null, (query, limit)->
+# Meteor.publish null, (query, limit)->
 
-  return Friends.find {userID: '552968934'}, {limit: limit}
+#   return Friends.find {}, {limit: limit}
 

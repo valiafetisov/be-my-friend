@@ -1,4 +1,5 @@
 Meteor.startup ->
+  # if process.env.NODE_ENV isnt "development"
   loginToFacebook()
 
 
