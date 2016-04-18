@@ -6,10 +6,11 @@ Meteor.methods {
 
     ret = {}
     friends = Friends.find(
-      {},
+      {
+      },
       {
         sort: {fullName: 1}
-        # limit: 100
+        limit: 100
       }
     ).fetch()
     ret.data = []
@@ -32,13 +33,15 @@ Meteor.methods {
         $gte: limits.start
         $lt: limits.stop
       }
-      finished: true
+      # finished: true
     }, {
       sort: {lastActive: 1}
       # limit: 1000
     }).fetch()
-    # oneDayActivity.sort (a, b)-> parseInt(a.userID) - parseInt(b.userID)
 
+    ret.length = oneDayActivity.length
+
+    now = moment().toDate()
     ret.data.map (each, index)->
 
       console.log "getOneDayActivity ret.data.map", moment().format('HH:mm:ss'), 'index: '+index
@@ -52,12 +55,9 @@ Meteor.methods {
             to: moment(eachPoint.lastActive).toDate()
             # status: eachPoint.status
           }
-          # if each.createdAt?
-          #   obj.to = moment(each.createdAt).toDate()
-          # else
-          #   obj.to = moment(each.lastActive).toDate()
+          if eachPoint.finished isnt true
+            obj.to = now
           each.data.push obj
-
       return each
 
     # console.log 'oneDayActivity', ret.data
