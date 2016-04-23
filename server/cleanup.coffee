@@ -23,11 +23,14 @@ Meteor.startup ->
     Sessions.insert {start: Date.now(), createdAt: Date.now()}
 
     # cleanup unfinished periods just by closing them
-    unfinishedPeriods = Periods.find({finished: {$ne: true}}).fetch();
+    unfinishedPeriods = Periods.find({finished: {$ne: true}}).fetch()
     if !unfinishedPeriods? then return
+
+    lastUpdate = Periods.findOne {finished: true}, {sort: {updatedAt: -1}}
+    if !lastUpdate? then return
 
     unfinishedPeriods.forEach (each)->
 
       console.log "period cleaned up:\t", moment(each.firstActive).format('YY.MM.DD HH:mm:ss'), moment(each.lastActive).format('YY.MM.DD HH:mm:ss'), each.userID
-      Periods.update each._id, {$set: {finished: true, updatedAt: Date.now()}}
+      Periods.update each._id, {$set: {finished: true, updatedAt: lastUpdate.updatedAt}}
 
