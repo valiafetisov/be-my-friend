@@ -10,11 +10,11 @@ Meteor.methods {
       },
       {
         sort: {fullName: 1}
-        limit: 100
+        # limit: 100
       }
     ).fetch()
-    ret.data = []
-    friends.forEach (each)-> ret.data.push {userID: each.userID, label: each.fullName}
+    ret.rows = []
+    friends.forEach (each)-> ret.rows.push {userID: each.userID, label: each.fullName}
 
 
     if !limits?
@@ -25,14 +25,14 @@ Meteor.methods {
     if !limits.stop?
       limits.stop = moment(limits.start).add(1,'days').valueOf()
 
-    ids = ret.data.map (each)-> each.userID
+    ids = ret.rows.map (each)-> each.userID
 
     oneDayActivity = Periods.find({
       userID: {$in: ids}
-      lastActive: {
-        $gte: limits.start
-        $lt: limits.stop
-      }
+      # lastActive: {
+      #   $gte: limits.start
+      #   $lt: limits.stop
+      # }
       # finished: true
     }, {
       sort: {lastActive: 1}
@@ -42,11 +42,12 @@ Meteor.methods {
     ret.length = oneDayActivity.length
 
     now = moment().toDate()
-    ret.data.map (each, index)->
+    ret.rows.map (each, index)->
 
-      console.log "getOneDayActivity ret.data.map", moment().format('HH:mm:ss'), 'index: '+index
+      console.log "getOneDayActivity ret.rows.map", moment().format('HH:mm:ss'), 'index: '+index
 
       each.data = []
+      each.summ = 0
       oneDayActivity.forEach (eachPoint)->
         if each.userID is eachPoint.userID
           obj = {
@@ -57,8 +58,13 @@ Meteor.methods {
           }
           if eachPoint.finished isnt true
             obj.to = now
+          each.summ += (eachPoint.lastActive or Date.now()) - eachPoint.firstActive
+          # console.log eachPoint.lastActive or Date.now(), eachPoint.firstActive, each.summ
           each.data.push obj
       return each
+
+    # ret.rows.sort (a, b)-> a.summ - b.summ
+    ret.rows = ret.rows.slice(ret.rows.length - 100)
 
     # console.log 'oneDayActivity', ret.data
     console.log "getOneDayActivity stop", new Date()

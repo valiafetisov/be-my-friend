@@ -21,7 +21,7 @@ Template.timeline.onRendered ->
   Meteor.call 'getOneDayActivity', limits, (err, res)->
     if err or !res? then return
 
-    res.data.map (each)->
+    res.rows.map (each)->
       if !each.data? then return each
       return each.data.map (eacheach)->
         eacheach.type = TimelineChart.TYPE.INTERVAL
@@ -30,7 +30,7 @@ Template.timeline.onRendered ->
     console.log 'getOneDayActivity', res
 
     element = document.getElementById('timeline')
-    timeline = new TimelineChart(element, res.data, {
+    timeline = new TimelineChart(element, res.rows, {
       height: window.innerHeight
       # tip: (d)->
       #   return d.at || d.from+'<br>'+d.to
