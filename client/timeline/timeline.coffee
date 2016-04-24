@@ -33,6 +33,7 @@ Template.timeline.onRendered ->
     #   # <rect class="interval" width="0.4788766597469589" height="8.256" y="1.032" x="224.9499056362853"></rect>
     #   row.data.forEach (each)->
 
+    scaledBy = 1
     data = res.rows
     barWidth = window.innerWidth / data.length
     width = barWidth * data.length
@@ -41,7 +42,9 @@ Template.timeline.onRendered ->
 
     svg = d3.select(element).append('svg')
       .attr('width', width)
-      .attr('height', height)
+      .attr('height', height * scaledBy)
+      .append('g')
+      .attr('transform', ()-> "scale(1,"+scaledBy+")")
 
     people = svg.selectAll('.person')
       .data(data)
@@ -66,12 +69,24 @@ Template.timeline.onRendered ->
     #   .text((d)-> return d.label)
     #   # .attr('font-size', '20px')
     #   .attr('fill', 'white')
+    getClass = (d,i) ->
+      diff = scale(d.to) - scale(d.from)
+      c = 'interval '
+      if diff < 10
+        c += 'small'
+      else if diff < 40
+        c += 'middle'
+      else if diff < 100
+        c += 'long'
+      else
+        c += 'extra'
+      return c
 
     interval = people.selectAll('.interval')
       .data((d)-> return d.data)
       .enter()
       .append('rect')
-      .attr('class', 'interval')
+      .attr('class', getClass)
       .attr('height', (d)->
         if d.to < d.from then return 0
         scale(d.to) - scale(d.from)
@@ -79,4 +94,7 @@ Template.timeline.onRendered ->
       .attr('width', barWidth)
       .attr('x', barWidth)
       .attr('y', (d)-> height - scale(d.to))
+      # .classed(getClass(d,i), true)
+
+
 

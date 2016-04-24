@@ -41,13 +41,13 @@ Meteor.methods {
 
     ret.length = oneDayActivity.length
     ret.min = oneDayActivity[0].firstActive
-    # ret.max = oneDayActivity[ret.length-1].lastActive
-    ret.max = Date.now()
+    ret.max = oneDayActivity[ret.length-1].lastActive
+    # ret.max = Date.now()
 
     now = moment().toDate()
     ret.rows.map (each, index)->
 
-      console.log "getOneDayActivity ret.rows.map", moment().format('HH:mm:ss'), 'index: '+index
+      # console.log "getOneDayActivity ret.rows.map", moment().format('HH:mm:ss'), 'index: '+index
 
       each.data = []
       each.summ = 0
@@ -62,7 +62,6 @@ Meteor.methods {
           if eachPoint.finished isnt true
             obj.to = now
           each.summ += (eachPoint.lastActive or Date.now()) - eachPoint.firstActive
-          # console.log eachPoint.lastActive or Date.now(), eachPoint.firstActive, each.summ
           each.data.push obj
       return each
 
