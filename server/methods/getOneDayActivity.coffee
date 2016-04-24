@@ -40,6 +40,9 @@ Meteor.methods {
     }).fetch()
 
     ret.length = oneDayActivity.length
+    ret.min = oneDayActivity[0].firstActive
+    # ret.max = oneDayActivity[ret.length-1].lastActive
+    ret.max = Date.now()
 
     now = moment().toDate()
     ret.rows.map (each, index)->
@@ -52,8 +55,8 @@ Meteor.methods {
         if each.userID is eachPoint.userID
           obj = {
             # type: Symbol()
-            from: moment(eachPoint.firstActive).toDate()
-            to: moment(eachPoint.lastActive).toDate()
+            from: eachPoint.firstActive
+            to: eachPoint.lastActive
             # status: eachPoint.status
           }
           if eachPoint.finished isnt true
@@ -64,7 +67,7 @@ Meteor.methods {
       return each
 
     # ret.rows.sort (a, b)-> a.summ - b.summ
-    ret.rows = ret.rows.slice(ret.rows.length - 100)
+    # ret.rows = ret.rows.slice(ret.rows.length - 200)
 
     # console.log 'oneDayActivity', ret.data
     console.log "getOneDayActivity stop", new Date()

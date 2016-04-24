@@ -1,25 +1,20 @@
+$background-color = white
+$people-color = transparent
+$interval-color = black
+
+
 #timeline
-  background-color #000
 
-  g.item
-    fill green
+  svg
+    background-color $background-color
 
-  path.domain
-    fill transparent
+  .person
+    .box
+      fill $background-color
 
-  line
-    stroke #2b2b2b
+    &:hover .box
+      fill $people-color
 
-  .group-label
-    fill gray
-    font-size 0.8em
-    font-family "Helvetica"
+  .interval
+    fill $interval-color
 
-  .tick text
-    fill gray
-
-
-  // .d3-tip {
-  //     background: white;
-  //     color: black;
-  // }
