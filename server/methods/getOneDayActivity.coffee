@@ -33,7 +33,7 @@ Meteor.methods {
       #   $gte: limits.start
       #   $lt: limits.stop
       # }
-      # finished: true
+      finished: true
     }, {
       sort: {lastActive: 1}
       # limit: 1000
