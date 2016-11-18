@@ -62,6 +62,15 @@ Template.timeline.onRendered ->
       .attr('x', barWidth)
       .attr('y', 0)
 
+    people
+      .on('mouseover', (d)->
+        # console.log('mouseover', d)
+        $('input').val(d.label)
+      )
+      .on('mouseout', (d)->
+        # console.log('mouseout', d)
+      );
+
     # title = people.attr('clip-path', 'url(#chart-content)')
     #   # .attr('class', 'item')
     #   .append('text')
@@ -69,24 +78,25 @@ Template.timeline.onRendered ->
     #   .text((d)-> return d.label)
     #   # .attr('font-size', '20px')
     #   .attr('fill', 'white')
-    getClass = (d,i) ->
-      diff = scale(d.to) - scale(d.from)
-      c = 'interval '
-      if diff < 10
-        c += 'small'
-      else if diff < 40
-        c += 'middle'
-      else if diff < 100
-        c += 'long'
-      else
-        c += 'extra'
-      return c
+
+    # getClass = (d,i) ->
+    #   diff = scale(d.to) - scale(d.from)
+    #   c = 'interval '
+    #   if diff < 10
+    #     c += 'small'
+    #   else if diff < 40
+    #     c += 'middle'
+    #   else if diff < 100
+    #     c += 'long'
+    #   else
+    #     c += 'extra'
+    #   return c
 
     interval = people.selectAll('.interval')
       .data((d)-> return d.data)
       .enter()
       .append('rect')
-      .attr('class', getClass)
+      # .attr('class', getClass)
       .attr('height', (d)->
         if d.to < d.from then return 0
         scale(d.to) - scale(d.from)

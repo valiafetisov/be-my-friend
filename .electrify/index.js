@@ -12,6 +12,7 @@ app.on('ready', function() {
     // creates a new electron window
     window = new browser({
       width: 1200, height: 900,
+      // frame: false, titleBarStyle: 'hidden',
       'node-integration': false // node integration must to be off
     });
 
@@ -27,7 +28,7 @@ app.on('window-all-closed', function() {
 
 
 app.on('will-quit', function terminate_and_quit(event) {
-  
+
   // if electrify is up, cancel exiting with `preventDefault`,
   // so we can terminate electrify gracefully without leaving child
   // processes hanging in background
@@ -36,7 +37,7 @@ app.on('will-quit', function terminate_and_quit(event) {
     // holds electron termination
     event.preventDefault();
 
-    // gracefully stops electrify 
+    // gracefully stops electrify
     electrify.stop(function(){
 
       // and then finally quit app
@@ -45,29 +46,29 @@ app.on('will-quit', function terminate_and_quit(event) {
   }
 });
 
-// 
+//
 // =============================================================================
-// 
+//
 // the methods bellow can be called seamlessly from your Meteor's
 // client and server code, using:
-// 
+//
 //    Electrify.call('methodname', [..args..], callback);
-// 
+//
 // ATENTION:
 //    From meteor, you can only call these methods after electrify is fully
 //    started, use the Electrify.startup() convenience method for this
-// 
-// 
+//
+//
 // Electrify.startup(function(){
 //   Electrify.call(...);
 // });
-// 
+//
 // =============================================================================
-// 
+//
 // electrify.methods({
 //   'method.name': function(name, done) {
 //     // do things... and call done(err, arg1, ..., argN)
 //     done(null);
 //   }
 // });
-// 
+//
