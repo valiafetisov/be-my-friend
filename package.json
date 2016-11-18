@@ -1,0 +1,15 @@
+{
+  "name": "be-my-friend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "meteor -p 6000 --settings ./configurations/local/settings.json"
+  },
+  "author": "Valia Fetisov",
+  "license": "MIT",
+  "dependencies": {
+    "babel-runtime": "^6.18.0",
+    "facebook-chat-api": "^1.2.0"
+  }
+}
