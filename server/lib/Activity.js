@@ -1,11 +1,15 @@
+import moment from 'moment'
+import Periods from '/lib/collections/Periods'
+
 const Activity = {
 
   saveAll(array) {
     if ((array == null) || !_.isArray(array) || array.length < 0) { return }
-    return array.forEach((user, index)=> Activity.save(user))
+    return array.forEach((user, index) => Activity.save(user))
   },
 
   save(user) {
+    user.lastActive = user.timestamp
     if ((user == null) || typeof user !== 'object') { return }
 
     let prev = Periods.findOne({userID: user.userID}, {sort: {lastActive: -1}})
@@ -25,7 +29,7 @@ const Activity = {
       return Periods.update(prev._id, {$set: update})
     } else {
       if ((prev == null) || prev.finished === true) {
-        console.log("new period:     \t", moment(user.lastActive).format('HH:mm:ss'), user.userID);
+        console.log("new period:\t", moment(user.lastActive).format('HH:mm:ss'), user.userID);
         return Periods.insert({
           userID: user.userID,
           firstActive: user.lastActive - 5000,

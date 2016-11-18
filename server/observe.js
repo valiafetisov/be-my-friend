@@ -3,7 +3,6 @@ import Friend from '/server/lib/Friend'
 import Activity from '/server/lib/Activity'
 import Activities from '/lib/collections/Activities'
 import Logins from '/lib/collections/Logins'
-import Friends from '/lib/collections/Friends'
 
 Meteor.startup(function() {
   // if (process.env.NODE_ENV === 'development') return
@@ -60,9 +59,16 @@ const setupUserStatuses = function(api) {
     saveUserStatuses(message)
   }))
 }
-const saveUserStatuses = function(status) {
-  console.log('status', status)
-  Activities.insert(status)
+
+const saveUserStatuses = function(event) {
+  Activities.insert(event)
+  if (event.type === 'presence') {
+    event.status = (event.raw != null && event.raw.a === 2)
+      ? 'online'
+      : 'offline'
+    Activity.save(event)
+  }
+  console.log('event', event)
 }
 
 //
