@@ -17,3 +17,4 @@ d3js:d3
 standard-minifier-css
 standard-minifier-js
 shell-server
+kadira:flow-router-ssr

@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "meteor -p 6000 --settings ./configurations/local/settings.json"
+    "start": "meteor -p 60000 --settings ./configurations/local/settings.json"
   },
   "author": "Valia Fetisov",
   "license": "MIT",
   "dependencies": {
     "babel-runtime": "^6.18.0",
     "facebook-chat-api": "^1.2.0",
-    "moment": "^2.16.0"
+    "moment": "^2.16.0",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0",
+    "react-mounter": "^1.2.0"
   }
 }
