@@ -1,23 +1,22 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import Periods from '/lib/collections/Periods'
-import Cylinder from '/imports/components/Cylinder'
+import Timeline from '/imports/components/Timeline'
 
-const Timeline = React.createClass({
+const TimelineContainer = React.createClass({
 
   componentDidMount() {
     Meteor.call('getOneDayActivity', null, (err, res) => {
       if (err != null) return console.error('Timeline: getOneDayActivity: error:', err)
-      // console.log('Timeline: getOneDayActivity: result:', res)
       this.setState({ res })
     })
   },
 
   render() {
     if (!this.state) return null
-    return <Cylinder {...this.state.res} />
+    return <Timeline {...this.state.res} />
   }
 
 })
 
-export default Timeline
+export default TimelineContainer

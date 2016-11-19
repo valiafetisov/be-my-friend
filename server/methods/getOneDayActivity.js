@@ -75,7 +75,7 @@ Meteor.methods({
     // ret.rows = ret.rows.slice(ret.rows.length - 200)
 
     // console.log 'oneDayActivity', ret.data
-    console.log("getOneDayActivity stop", new Date())
+    console.log('getOneDayActivity stop', new Date())
 
     return ret
   }
