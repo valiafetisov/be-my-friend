@@ -54,19 +54,23 @@ Meteor.methods({
       each.data = []
       each.summ = 0
       oneDayActivity.forEach(function(eachPoint){
-        if (each.userID === eachPoint.userID) {
-          let obj = {
-            // type: Symbol()
-            from: eachPoint.firstActive,
-            to: eachPoint.lastActive
-            // status: eachPoint.status
-          }
-          if (eachPoint.finished !== true) {
-            obj.to = now;
-          }
-          each.summ += (eachPoint.lastActive || Date.now()) - eachPoint.firstActive
-          return each.data.push(obj)
+        if (each.userID !== eachPoint.userID) return
+
+        // hide periods longer than 200 minuts
+        if (eachPoint.lastActive - eachPoint.firstActive > 200 * 60 * 1000) return
+
+        let obj = {
+          // type: Symbol()
+          from: eachPoint.firstActive,
+          to: eachPoint.lastActive
+          // status: eachPoint.status
         }
+        if (eachPoint.finished !== true) {
+          obj.to = now;
+        }
+        each.summ += (eachPoint.lastActive || Date.now()) - eachPoint.firstActive
+
+        return each.data.push(obj)
       })
       return each
     })
