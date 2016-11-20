@@ -36,7 +36,11 @@ const Timeline = React.createClass({
     const viewBox = '0 0' + ' ' + svgWidth + ' ' + svgHeight
 
     return <div className="Cylinder">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox={viewBox}
+        style={{transform: 'rotateX(180deg)'}}
+      >
         {data.map(this.user)}
       </svg>
     </div>
