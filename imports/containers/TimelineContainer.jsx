@@ -6,8 +6,17 @@ import Timeline from '/imports/components/Timeline'
 const TimelineContainer = React.createClass({
 
   componentDidMount() {
+    this.fetchData()
+    this.interval = setInterval(this.fetchData, 10000)
+  },
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  },
+
+  fetchData() {
     Meteor.call('getOneDayActivity', null, (err, res) => {
-      if (err != null) return console.error('Timeline: getOneDayActivity: error:', err)
+      if (err != null) return console.error('TimelineContainer: getOneDayActivity: error:', err)
       this.setState({ res })
     })
   },
