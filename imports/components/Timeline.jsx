@@ -3,20 +3,19 @@ import React from 'react'
 const Timeline = React.createClass({
 
   scale(time) {
-    return (-1) * (this.props.min - time) / (1000 * 60)
+    return time / (1000 * 60)
   },
 
   interval(each, index) {
     const from = this.scale(each.from)
     const height = this.scale(each.to) - from
-    const y = from
 
     return <rect
       key={'index_' + index}
       width={this.barWidth}
-      height={height}
       x={this.barWidth}
-      y={y}
+      y={from}
+      height={height}
     />
   },
 
@@ -30,10 +29,11 @@ const Timeline = React.createClass({
 
   render() {
     const data = this.props.rows
-    const svgWidth = 2000
-    const svgHeight = this.scale(this.props.max)
-    this.barWidth = svgWidth / data.length
+    const svgWidth = 100
+    const svgHeight = this.scale(this.props.max - this.props.min)
+    const moveUp = (-1) * this.scale(this.props.min)
     const viewBox = '0 0' + ' ' + svgWidth + ' ' + svgHeight
+    this.barWidth = svgWidth / data.length
 
     return <div className="Cylinder">
       <svg
@@ -44,7 +44,9 @@ const Timeline = React.createClass({
         preserveAspectRatio="none"
         style={{transform: 'rotateX(180deg)'}}
       >
-        {data.map(this.user)}
+        <g transform={'translate(0, ' + moveUp + ')'}>
+          {data.map(this.user)}
+        </g>
       </svg>
     </div>
   }
