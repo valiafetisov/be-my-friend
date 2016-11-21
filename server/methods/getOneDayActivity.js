@@ -43,8 +43,8 @@ Meteor.methods({
 
     ret.length = oneDayActivity.length
     ret.min = oneDayActivity[0].firstActive
-    ret.max = oneDayActivity[ret.length-1].lastActive
-    // ret.max = Date.now()
+    // ret.max = oneDayActivity[ret.length-1].lastActive
+    ret.max = Date.now()
 
     let now = moment().toDate()
     ret.rows.map(function(each, index) {

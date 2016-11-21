@@ -1,13 +1,13 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import Periods from '/lib/collections/Periods'
-import Timeline from '/imports/components/Timeline'
+import TimelineLayout from '/imports/layouts/TimelineLayout'
 
 const TimelineContainer = React.createClass({
 
   componentDidMount() {
     this.fetchData()
-    this.interval = setInterval(this.fetchData, 10000)
+    this.interval = setInterval(this.fetchData, 1000)
   },
 
   componentWillUnmount() {
@@ -23,7 +23,7 @@ const TimelineContainer = React.createClass({
 
   render() {
     if (!this.state) return null
-    return <Timeline {...this.state.res} />
+    return <TimelineLayout {...this.state.res} />
   }
 
 })
