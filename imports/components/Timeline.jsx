@@ -8,21 +8,28 @@ const Timeline = React.createClass({
 
   interval(each, index) {
     const from = this.scale(each.from)
-    const height = this.scale(each.to) - from
+    const to = this.scale(each.to)
 
-    return <rect
+    return <line
       key={'index_' + index}
-      width={this.barWidth}
-      x={this.barWidth}
-      y={from}
-      height={height}
+      x1={this.barWidth}
+      x2={this.barWidth}
+      y1={from}
+      y2={to}
     />
   },
 
   user(each, index) {
     const transform = "translate(" + this.barWidth * index + ", 0)"
 
-    return <g key={each.userID} className='user' transform={transform} >
+    return <g key={each.userID} transform={transform} >
+      <line
+        className='user'
+        x1={this.barWidth}
+        x2={this.barWidth}
+        y1={this.scale(this.props.min)}
+        y2={this.scale(this.props.max)}
+      />
       {each.data.map(this.interval)}
     </g>
   },
@@ -35,7 +42,7 @@ const Timeline = React.createClass({
     const viewBox = '0 0' + ' ' + svgWidth + ' ' + svgHeight
     this.barWidth = svgWidth / data.length
 
-    return <div className="Cylinder">
+    return <div className="Timeline">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100%"
