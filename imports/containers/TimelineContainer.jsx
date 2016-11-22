@@ -11,7 +11,7 @@ const TimelineContainer = React.createClass({
   },
 
   componentWillUnmount() {
-    clearInterval(this.interval)
+    if (this.interval) clearInterval(this.interval)
   },
 
   fetchData() {

@@ -1,12 +1,13 @@
 import React from 'react'
 import Timeline from '/imports/components/Timeline'
+import TimelineDIV from '/imports/components/TimelineDIV'
 
 const TimelineLayout = React.createClass({
 
   render () {
     return <div className="TimelineLayout">
       <div className="info">{this.props.max}</div>
-      <Timeline {...this.props} />
+      <TimelineDIV {...this.props} />
     </div>
   }
 
