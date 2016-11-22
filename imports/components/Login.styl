@@ -1,0 +1,86 @@
+.Login
+
+  fontSizeBig = 15px
+  fontSizeMiddle = 14px
+  fontSizeSmall = 12px
+  borderColor = #afb0b2
+
+  position relative
+  background-color white
+  width 390px
+  box-shadow 0px 0px 45px rgba(0, 0, 0, 0.5)
+  border 1px solid borderColor
+  border-radius 3px
+  padding 25px
+  margin -1px auto 0
+
+  font-family Arial
+  font-size fontSizeSmall
+
+  label
+    display block
+
+  input
+    border 1px solid borderColor
+    border-radius 2px
+
+  &__title
+    font-weight bold
+    font-size fontSizeBig
+    padding-bottom 10px
+
+  &__error
+    color #ff0000
+    font-weight bold
+    padding 10px 0 0
+    min-height 33px
+
+  &__login
+  &__password
+    // height 20px
+    padding 5px 0
+    // overflow hidden
+
+    div
+      font-weight bold
+      line-height 26px
+      width 80px
+      text-align right
+      padding-right 10px
+      float left
+
+    input
+      width 250px
+      font-size fontSizeMiddle
+      padding 3px 5px
+      box-sizing border-box
+      clear both
+
+      &:focus
+        outline 3px solid #9fccfa !important
+
+  &__agree
+    height 20px
+
+    input
+      margin-left 78px
+      width 20px
+      height 20px
+      float left
+
+    div
+      line-height 22px
+
+    clear both
+
+  &__submit
+    margin-top 25px
+    margin-bottom 55px
+    clear both
+
+    input
+      padding 6px 30px
+      background-color #f3f3f3
+      float right
+      margin-right 9px
+
