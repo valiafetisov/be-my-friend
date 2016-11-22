@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Friends from '/lib/collections/Friends'
+import Friends from '/imports/collections/Friends'
 
 //
 // Update friends collection

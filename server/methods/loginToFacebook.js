@@ -1,6 +1,6 @@
 import facebook from 'facebook-chat-api'
 import { Meteor } from 'meteor/meteor'
-import Credentials from '/lib/collections/Credentials'
+import Credentials from '/imports/collections/Credentials'
 import { onFacebookLogin } from '/server/lib/facebookSetup'
 
 Meteor.methods({

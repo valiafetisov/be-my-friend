@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { Meteor } from 'meteor/meteor'
-import Periods from '/lib/collections/Periods'
+import Periods from '/imports/collections/Periods'
 
 //
 // setup friends observation

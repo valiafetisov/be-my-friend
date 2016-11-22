@@ -1,5 +1,5 @@
 import facebook from 'facebook-chat-api'
-import Credentials from '/lib/collections/Credentials'
+import Credentials from '/imports/collections/Credentials'
 import startFriendsObservation from '/server/lib/startFriendsObservation'
 import updateFriendsList from '/server/lib/updateFriendsList'
 

@@ -1,1 +1,0 @@
-facebook = Npm.require("facebook-chat-api");

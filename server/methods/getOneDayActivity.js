@@ -1,5 +1,5 @@
-import Friends from '/lib/collections/Friends'
-import Periods from '/lib/collections/Periods'
+import Friends from '/imports/collections/Friends'
+import Periods from '/imports/collections/Periods'
 import moment from 'moment'
 
 Meteor.methods({
