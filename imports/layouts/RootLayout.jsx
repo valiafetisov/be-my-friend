@@ -1,14 +1,20 @@
 import React from 'react'
 import Login from '/imports/components/Login'
-import Logins from '/lib/collections/Logins'
 
 const RootLayout = React.createClass({
 
+  getInitialState () {
+    return {loggedIn: false}
+  },
+
+  onLogin () {
+    this.setState({loggedIn: true})
+  },
+
   render () {
-    let latest = Logins.findOne({login: {$exists: true}}, {sort: {createdAt: -1}})
-    if (latest == null) {
+    if (this.state.loggedIn !== true) {
       return <div className="LoginLayout">
-        <Login />
+        <Login onLogin={this.onLogin}/>
       </div>
     }
 
