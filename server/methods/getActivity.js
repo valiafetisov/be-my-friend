@@ -66,7 +66,7 @@ Meteor.methods({
         }
 
         // hide periods longer than 200 minuts
-        if (ret.to - ret.from > 200 * 60 * 1000) return
+        // if (ret.to - ret.from > 200 * 60 * 1000) return
 
         // summarize full online activity of each friend
         friend.summ = (friend.summ || 0) + ret.to - ret.from
