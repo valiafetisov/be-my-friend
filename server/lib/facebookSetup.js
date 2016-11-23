@@ -2,6 +2,7 @@ import facebook from 'facebook-chat-api'
 import Credentials from '/imports/collections/Credentials'
 import startFriendsObservation from '/server/lib/startFriendsObservation'
 import updateFriendsList from '/server/lib/updateFriendsList'
+import updateObservationSession from '/server/lib/updateObservationSession'
 
 //
 // Login to facebook
@@ -32,20 +33,26 @@ const loginToFacebook = function(relogin) {
 //
 // Setup loop
 //
-const onFacebookLogin = function(error, api){
+const onFacebookLogin = function(error, api) {
+  // keep track of when did you abserve your friends
+  updateObservationSession(error, api)
+
   if (error || api == null) {
     console.error('onFacebookLogin error:', error)
     Meteor.setTimeout(function(){
       loginToFacebook(true)
     }, 30000)
+    return
   }
 
   const appState = api.getAppState()
   Credentials.update({
     userID: api.getCurrentUserID()
   },{
-    appState,
-    updatedAt: Date.now()
+    $set: {
+      appState,
+      updatedAt: Date.now()
+    }
   })
 
   startFriendsObservation(api)
