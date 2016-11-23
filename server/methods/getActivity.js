@@ -16,6 +16,7 @@ Meteor.methods({
     friends.forEach(each => {
       out.friends.push({userID: each.userID, label: each.fullName})
     })
+    if (friends[0] == undefined) return out
 
     // if (limits == null) {
     //   limits = {}
@@ -32,14 +33,17 @@ Meteor.methods({
     let ids = out.friends.map(each => each.userID)
     let periods = Periods.find({
       userID: {$in: ids},
+      firstActive: {$ne: NaN},
+      lastActive: {$ne: NaN}
       // lastActive: {
       //   $gte: limits.start
       //   $lt: limits.stop
       // }
-      finished: true
+      // finished: true
     }, {
       sort: {lastActive: 1}
     }).fetch()
+    if (periods[0] == undefined) return out
 
     // add statistics to output
     out.length = periods.length
