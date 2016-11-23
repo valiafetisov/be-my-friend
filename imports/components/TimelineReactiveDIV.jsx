@@ -10,7 +10,7 @@ const TimelineReactiveDIV = React.createClass({
     if (userID !== period.userID) return
 
     const lastActive = (period.finished !== true || period.lastActive == null)
-      ? Date.now()
+      ? this.props.now
       : period.lastActive
     const firstActiveScaled = this.scale(period.firstActive)
     const style = {
@@ -27,7 +27,6 @@ const TimelineReactiveDIV = React.createClass({
 
   renderFriend(friend, index) {
     const style = {
-      width: this.barWidth + '%',
       height: '100%',
       left: (this.barWidth * index) + '%'
     }
@@ -43,11 +42,11 @@ const TimelineReactiveDIV = React.createClass({
 
   render() {
     if (this.props.loading === true) return null
-    const now = Date.now()
+
     const friends = this.props.friends
     const periods = this.props.periods
     const svgWidth = 100
-    const svgHeight = this.scale(now - periods[0].firstActive)
+    const svgHeight = this.scale(this.props.now - this.props.min)
     this.barWidth = svgWidth / friends.length
     const style = {
       width: '100%',
@@ -59,7 +58,7 @@ const TimelineReactiveDIV = React.createClass({
         className="svg"
         style={style}
       >
-        <div className="wrapper" style={{height: this.scale(now) + 'px'}}>
+        <div className="wrapper" style={{height: this.scale(this.props.now) + 'px'}}>
           {friends.map(this.renderFriend)}
         </div>
       </div>

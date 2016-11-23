@@ -2,6 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import Timeline from '/imports/components/Timeline'
 import TimelineDIV from '/imports/components/TimelineDIV'
+import TimelineReactiveDIV from '/imports/components/TimelineReactiveDIV'
 
 const TimelineLayout = React.createClass({
 
@@ -9,7 +10,7 @@ const TimelineLayout = React.createClass({
     const lastTime = moment(this.props.now).format('DD.MM.YYYY HH:ss')
     return <div className="TimelineLayout">
       <div className="info">{'Last time updated: ' + lastTime}</div>
-      <TimelineDIV {...this.props} />
+      <TimelineReactiveDIV {...this.props} />
     </div>
   }
 
