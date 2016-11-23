@@ -1,7 +1,7 @@
 import Sessions from '/imports/collections/Sessions'
 import Periods from '/imports/collections/Periods'
 
-const updateObservationSession = function(error, success) {
+const updateObservationSession = function(error, success, callback) {
   const now = Date.now()
   const latestSession = Sessions.findOne({}, {sort: {createdAt: -1}})
 
@@ -37,11 +37,12 @@ const updateObservationSession = function(error, success) {
   //
   if (latestSession === undefined) {
     console.log('updateObservationSession: first run')
-    return Sessions.insert({
+    Sessions.insert({
       firstActive: now,
       lastActive: now,
       createdAt: now
     })
+    return (callback) ? callback() : null
   }
 
   //
@@ -65,11 +66,12 @@ const updateObservationSession = function(error, success) {
     }
 
     // insert new
-    return Sessions.insert({
+    Sessions.insert({
       firstActive: now,
       lastActive: now,
       createdAt: now
     })
+    return (callback) ? callback() : null
   }
 
   //
@@ -84,6 +86,7 @@ const updateObservationSession = function(error, success) {
       error: false
     }
   })
+  return (callback) ? callback() : null
 }
 
 export default updateObservationSession

@@ -34,9 +34,6 @@ const loginToFacebook = function(relogin) {
 // Setup loop
 //
 const onFacebookLogin = function(error, api) {
-  // keep track of when did you abserve your friends
-  updateObservationSession(error, api)
-
   if (error || api == null) {
     console.error('onFacebookLogin error:', error)
     Meteor.setTimeout(function(){
@@ -55,8 +52,14 @@ const onFacebookLogin = function(error, api) {
     }
   })
 
-  startFriendsObservation(api)
-  updateFriendsList(api)
+  //
+  // keep track of when did you abserve your friends
+  // and run updates only after cleanups
+  //
+  updateObservationSession(error, api, function() {
+    startFriendsObservation(api)
+    updateFriendsList(api)
+  })
 }
 
 export {loginToFacebook, onFacebookLogin}
