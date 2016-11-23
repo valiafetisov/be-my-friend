@@ -11,7 +11,7 @@ const loginToFacebook = function(relogin) {
 
   // if we have email and password
   if (latest === undefined) {
-    throw new Mereor.Error('No stored credentials found')
+    throw new Meteor.Error(500, 'No stored credentials found')
   }
 
   // if we have stored appState and there is no relogin specified
