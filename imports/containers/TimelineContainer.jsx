@@ -15,8 +15,8 @@ const TimelineContainer = React.createClass({
   },
 
   fetchData() {
-    Meteor.call('getOneDayActivity', null, (err, res) => {
-      if (err != null) return console.error('TimelineContainer: getOneDayActivity: error:', err)
+    Meteor.call('getActivity', null, (err, res) => {
+      if (err != null) return console.error('TimelineContainer: getActivity: error:', err)
       this.setState({ res })
     })
   },

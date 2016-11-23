@@ -3,12 +3,13 @@ import Periods from '/imports/collections/Periods'
 import moment from 'moment'
 
 Meteor.methods({
-  getOneDayActivity(limits) {
+  getActivity(limits) {
+    console.time('getActivity')
+
     let out = {
       friends: [],
       now: Date.now()
     }
-    console.log('getOneDayActivity start', out.now)
 
     // find all friends
     const friends = Friends.find({}, {sort: {fullName: 1}}).fetch()
@@ -76,7 +77,7 @@ Meteor.methods({
     // out.friends.sort (a, b)-> a.summ - b.summ
     // out.friends = out.friends.slice(out.friends.length - 200)
 
-    console.log('getOneDayActivity stop', new Date())
+    console.timeEnd('getActivity')
     return out
   }
 })
