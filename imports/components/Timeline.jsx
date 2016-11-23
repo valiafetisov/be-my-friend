@@ -6,9 +6,9 @@ const Timeline = React.createClass({
     return time / (1000 * 60)
   },
 
-  interval(each, index) {
-    const from = this.scale(each.from)
-    const to = this.scale(each.to)
+  renderPeriod(period, index) {
+    const from = this.scale(period.from)
+    const to = this.scale(period.to)
 
     return <line
       key={'index_' + index}
@@ -19,28 +19,28 @@ const Timeline = React.createClass({
     />
   },
 
-  user(each, index) {
+  renderFriend(friend, index) {
     const transform = "translate(" + this.barWidth * index + ", 0)"
 
-    return <g key={each.userID} transform={transform} >
+    return <g key={friend.userID} transform={transform} >
       <line
-        className='user'
+        className='friend'
         x1={this.barWidth}
         x2={this.barWidth}
         y1={this.scale(this.props.min)}
-        y2={this.scale(this.props.max)}
+        y2={this.scale(this.props.now)}
       />
-      {each.data.map(this.interval)}
+      {friend.periods.map(this.renderPeriod)}
     </g>
   },
 
   render() {
-    const data = this.props.rows
+    const friends = this.props.friends
     const svgWidth = 100
-    const svgHeight = this.scale(this.props.max - this.props.min)
+    const svgHeight = this.scale(this.props.now - this.props.min)
     const moveUp = (-1) * this.scale(this.props.min)
     const viewBox = '0 0' + ' ' + svgWidth + ' ' + svgHeight
-    this.barWidth = svgWidth / data.length
+    this.barWidth = svgWidth / friends.length
 
     return <div className="Timeline">
       <svg
@@ -52,7 +52,7 @@ const Timeline = React.createClass({
         style={{transform: 'rotateX(180deg)'}}
       >
         <g transform={'translate(0, ' + moveUp + ')'}>
-          {data.map(this.user)}
+          {friends.map(this.renderFriend)}
         </g>
       </svg>
     </div>

@@ -4,32 +4,32 @@ import moment from 'moment'
 
 Meteor.methods({
   getOneDayActivity(limits) {
-    console.log('getOneDayActivity start')
-
-    let ret = {}
-    let friends = Friends.find({},
-      {
-        sort: {fullName: 1}
-        // limit: 100
-      }
-    ).fetch()
-    ret.rows = []
-    friends.forEach(each=> ret.rows.push({userID: each.userID, label: each.fullName}))
-
-    if (limits == null) {
-      limits = {}
+    let out = {
+      friends: [],
+      now: Date.now()
     }
-    if (limits.start == null) {
-      limits.stop = moment().valueOf()
-      limits.start = limits.stop - (24*60*60*1000)
-    }
-    if (limits.stop == null) {
-      limits.stop = moment(limits.start).add(1,'days').valueOf()
-    }
+    console.log('getOneDayActivity start', out.now)
 
-    let ids = ret.rows.map(each=> each.userID)
+    // find all friends
+    const friends = Friends.find({}, {sort: {fullName: 1}}).fetch()
+    friends.forEach(each => {
+      out.friends.push({userID: each.userID, label: each.fullName})
+    })
 
-    let oneDayActivity = Periods.find({
+    // if (limits == null) {
+    //   limits = {}
+    // }
+    // if (limits.start == null) {
+    //   limits.stop = now
+    //   limits.start = limits.stop - (24*60*60*1000)
+    // }
+    // if (limits.stop == null) {
+    //   limits.stop = moment(limits.start).add(1,'days').valueOf()
+    // }
+
+    // get all associated periods
+    let ids = out.friends.map(each => each.userID)
+    let periods = Periods.find({
       userID: {$in: ids},
       // lastActive: {
       //   $gte: limits.start
@@ -38,49 +38,45 @@ Meteor.methods({
       finished: true
     }, {
       sort: {lastActive: 1}
-      // limit: 1000
     }).fetch()
 
-    ret.length = oneDayActivity.length
-    ret.min = oneDayActivity[0].firstActive
-    // ret.max = oneDayActivity[ret.length-1].lastActive
-    ret.max = Date.now()
+    // add statistics to output
+    out.length = periods.length
+    out.min = periods[0].firstActive
+    out.max = periods[periods.length - 1].lastActive
 
-    let now = moment().toDate()
-    ret.rows.map(function(each, index) {
+    // connect periods to friends
+    out.friends.map(function(friend, index) {
+      friend.periods = []
 
-      // console.log "getOneDayActivity ret.rows.map", moment().format('HH:mm:ss'), 'index: '+index
+      periods.forEach(function(period) {
+        if (friend.userID !== period.userID) return
 
-      each.data = []
-      each.summ = 0
-      oneDayActivity.forEach(function(eachPoint){
-        if (each.userID !== eachPoint.userID) return
+        // create new period
+        let ret = {
+          from: period.firstActive,
+          to: (period.finished !== true || period.lastActive == null)
+            ? out.now
+            : period.lastActive
+        }
 
         // hide periods longer than 200 minuts
-        if (eachPoint.lastActive - eachPoint.firstActive > 200 * 60 * 1000) return
+        if (ret.to - ret.from > 200 * 60 * 1000) return
 
-        let obj = {
-          // type: Symbol()
-          from: eachPoint.firstActive,
-          to: eachPoint.lastActive
-          // status: eachPoint.status
-        }
-        if (eachPoint.finished !== true) {
-          obj.to = now;
-        }
-        each.summ += (eachPoint.lastActive || Date.now()) - eachPoint.firstActive
+        // summarize full online activity of each friend
+        friend.summ = (friend.summ || 0) + ret.to - ret.from
 
-        return each.data.push(obj)
+        // push processed period
+        friend.periods.push(ret)
       })
-      return each
+
+      return friend
     })
 
-    // ret.rows.sort (a, b)-> a.summ - b.summ
-    // ret.rows = ret.rows.slice(ret.rows.length - 200)
+    // out.friends.sort (a, b)-> a.summ - b.summ
+    // out.friends = out.friends.slice(out.friends.length - 200)
 
-    // console.log 'oneDayActivity', ret.data
     console.log('getOneDayActivity stop', new Date())
-
-    return ret
+    return out
   }
 })

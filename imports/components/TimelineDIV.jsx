@@ -6,21 +6,20 @@ const TimelineDIV = React.createClass({
     return time / 1000 / 60
   },
 
-  interval(each, index) {
+  renderPeriod(period, index) {
     const style = {
-      bottom: this.scale(each.from) + 'px',
-      // bottom: (-1 * this.scale(each.from)) + 'px',
-      height: this.scale(each.to - each.from) + 'px'
+      bottom: this.scale(period.from) + 'px',
+      height: this.scale(period.to - period.from) + 'px'
     }
 
     return <div
       key={'index_' + index}
-      className='interval'
+      className='period'
       style={style}
     />
   },
 
-  user(each, index) {
+  renderFriend(friend, index) {
     const style = {
       width: this.barWidth + '%',
       height: '100%',
@@ -28,20 +27,20 @@ const TimelineDIV = React.createClass({
     }
 
     return <div
-      key={each.userID}
-      className='user'
+      key={friend.userID}
+      className='friend'
       style={style}
     >
-      {each.data.map(this.interval)}
+      {friend.periods.map(this.renderPeriod)}
     </div>
   },
 
   render() {
-    const data = this.props.rows
+    const friends = this.props.friends
     const svgWidth = 100
-    const svgHeight = this.scale(this.props.max - this.props.min)
+    const svgHeight = this.scale(this.props.now - this.props.min)
     // const moveUp = (-1) * this.scale(this.props.min)
-    this.barWidth = svgWidth / data.length
+    this.barWidth = svgWidth / friends.length
     const style = {
       width: '100%',
       height: svgHeight + 'px'
@@ -52,8 +51,8 @@ const TimelineDIV = React.createClass({
         className="svg"
         style={style}
       >
-        <div className="wrapper" style={{height: this.scale(this.props.max) + 'px'}}>
-          {data.map(this.user)}
+        <div className="wrapper" style={{height: this.scale(this.props.now) + 'px'}}>
+          {friends.map(this.renderFriend)}
         </div>
       </div>
     </div>
