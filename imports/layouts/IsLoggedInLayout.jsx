@@ -9,7 +9,7 @@ const IsLoggedInLayout = function(props) {
   return <div className="IsLoggedInLayout">
     {
       (props.latest)
-      ? <TimelineReactiveContainer />
+      ? <TimelineContainer />
       : <Login />
     }
   </div>
