@@ -9,7 +9,7 @@ const TimelineLayout = function(props) {
 
   return <div className="TimelineLayout">
     <div className="info">{'Last time updated: ' + lastTime}</div>
-    <TimelineDIV {...props} />
+    <Timeline {...props} />
   </div>
 }
 

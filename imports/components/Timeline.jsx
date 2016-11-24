@@ -3,7 +3,7 @@ import React from 'react'
 const Timeline = React.createClass({
 
   scale(time) {
-    return time / (1000 * 60)
+    return (time - this.props.min) / 1000 / 30
   },
 
   renderPeriod(period, index) {
@@ -37,7 +37,7 @@ const Timeline = React.createClass({
   render() {
     const friends = this.props.friends
     const svgWidth = 100
-    const svgHeight = this.scale(this.props.now - this.props.min)
+    const svgHeight = this.scale(this.props.now) - this.scale(this.props.min)
     const moveUp = (-1) * this.scale(this.props.min)
     const viewBox = '0 0' + ' ' + svgWidth + ' ' + svgHeight
     this.barWidth = svgWidth / friends.length
@@ -51,9 +51,7 @@ const Timeline = React.createClass({
         preserveAspectRatio="none"
         style={{transform: 'rotateX(180deg)'}}
       >
-        <g transform={'translate(0, ' + moveUp + ')'}>
           {friends.map(this.renderFriend)}
-        </g>
       </svg>
     </div>
   }
