@@ -14,7 +14,7 @@ Meteor.methods({
     // find all friends
     const friends = Friends.find({}, {sort: {fullName: 1}}).fetch()
     friends.forEach(each => {
-      out.friends.push({userID: each.userID, label: each.fullName})
+      out.friends.push({userID: each.userID, fullName: each.fullName})
     })
     if (friends[0] == undefined) return out
 

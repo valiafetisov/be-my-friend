@@ -1,6 +1,5 @@
 import React from 'react'
-import TimelineContainer from '/imports/containers/TimelineContainer'
-import TimelineReactiveContainer from '/imports/containers/TimelineReactiveContainer'
+import TimelineLayout from '/imports/layouts/TimelineLayout'
 import Login from '/imports/components/Login'
 
 const IsLoggedInLayout = function(props) {
@@ -9,7 +8,7 @@ const IsLoggedInLayout = function(props) {
   return <div className="IsLoggedInLayout">
     {
       (props.latest)
-      ? <TimelineContainer />
+      ? <TimelineLayout />
       : <Login />
     }
   </div>

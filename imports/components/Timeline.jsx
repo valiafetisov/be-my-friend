@@ -12,6 +12,7 @@ const Timeline = React.createClass({
 
     return <line
       key={'index_' + index}
+      strokeWidth={this.barWidth}
       x1={this.barWidth}
       x2={this.barWidth}
       y1={from}
@@ -26,6 +27,8 @@ const Timeline = React.createClass({
       {friend.periods.map(this.renderPeriod)}
       <line
         className='friend'
+        strokeWidth={this.barWidth}
+        onMouseOver={(e) => {if (this.props.transmitFriendOnHover) return this.props.transmitFriendOnHover(e, friend)}}
         x1={this.barWidth}
         x2={this.barWidth}
         y1={this.scale(this.props.min)}
