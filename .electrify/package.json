@@ -1,0 +1,7 @@
+{
+  "name": "Be my friend",
+  "main": "index.js",
+  "dependencies": {
+    "electrify": "2.1.4"
+  }
+}
