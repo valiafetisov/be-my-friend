@@ -23,6 +23,7 @@ const Timeline = React.createClass({
     const transform = "translate(" + this.barWidth * index + ", 0)"
 
     return <g key={friend.userID} transform={transform} >
+      {friend.periods.map(this.renderPeriod)}
       <line
         className='friend'
         x1={this.barWidth}
@@ -30,7 +31,6 @@ const Timeline = React.createClass({
         y1={this.scale(this.props.min)}
         y2={this.scale(this.props.now)}
       />
-      {friend.periods.map(this.renderPeriod)}
     </g>
   },
 

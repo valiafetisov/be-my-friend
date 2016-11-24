@@ -34,6 +34,7 @@ Meteor.methods({
     let periods = Periods.find({
       userID: {$in: ids},
       firstActive: {$ne: NaN},
+      // firstActive: {$gte: out.now - 1000 * 60 * 60 * 5},
       lastActive: {$ne: NaN}
       // lastActive: {
       //   $gte: limits.start
