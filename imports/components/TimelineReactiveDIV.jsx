@@ -17,17 +17,16 @@ const TimelineReactiveDIV = function(props) {
     height: svgHeight + 'px'
   }
 
-
   return <div className="TimelineDIV">
     <div className="svg" style={style}>
       <div className="wrapper" style={{height: scale(props.now) + 'px'}}>
-        {friends.map((friend, index) => renderFriend(friend, index, periods, props.showInfo, props.now))}
+        {friends.map((friend, index) => renderFriend(friend, index, periods, props.now))}
       </div>
     </div>
   </div>
 }
 
-function renderFriend(friend, index, periods, showInfo, now) {
+function renderFriend(friend, index, periods, now) {
   const style = {
     height: '100%',
     left: (barWidth * index) + '%'
@@ -37,7 +36,6 @@ function renderFriend(friend, index, periods, showInfo, now) {
     key={friend.userID}
     className='friend'
     style={style}
-    onMouseOver={(e) => showInfo(e, friend)}
     title={friend.fullName}
   >
     {periods.map((period, index) => renderPeriod(period, index, friend, now))}
