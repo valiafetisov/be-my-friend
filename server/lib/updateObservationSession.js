@@ -49,19 +49,22 @@ const updateObservationSession = function(error, success, callback) {
   // if delay more then limit:
   // cleanup and insert new session
   //
+  console.log('updateObservationSession: between sessions:', now - latestSession.lastActive, now - latestSession.lastActive > 3 * 60 * 1000)
   if (now - latestSession.lastActive > 3 * 60 * 1000) {
     console.log('updateObservationSession: delay more then limit: cleanup and insert new session')
 
     // cleanup previous periods
     const unfinishedPeriods = Periods.find({finished: {$ne: true}}).fetch()
     if (unfinishedPeriods.length > 0) {
-      const ids = unfinishedPeriods.map(e => e._id)
-      Periods.update({_id: {$in: ids}}, {
-        $set: {
-          lastActive: latestSession.lastActive,
-          updatedAt: now,
-          finished: true
-        }
+      unfinishedPeriods.forEach(period => {
+        const status = Periods.update(period._id, {
+          $set: {
+            lastActive: latestSession.lastActive,
+            updatedAt: now,
+            finished: true
+          }
+        })
+        console.log('updateObservationSession: updating unfinishedPeriods:', period._id, status)
       })
     }
 
