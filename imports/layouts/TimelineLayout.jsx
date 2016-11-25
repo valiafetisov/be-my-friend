@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import TimelineContainer from '/imports/containers/TimelineContainer'
+import OnlineReactiveContainer from '/imports/containers/OnlineReactiveContainer'
 import Timeline from '/imports/components/Timeline'
 import TimelineSVG from '/imports/components/TimelineSVG'
 
@@ -57,11 +58,14 @@ const TimelineLayout = React.createClass({
         {this.state.name}
       </div>
       <div className="TimelineLayout__statusBar">{lastTimeUpdated}</div>
-      <TimelineContainer
-        transmitFriendOnHover={this.transmitFriendOnHover}
-        transmitTimelineData={this.transmitTimelineData}
-        container={Timeline}
-      />
+      <div className="Timeline">
+        <OnlineReactiveContainer />
+        <TimelineContainer
+          transmitFriendOnHover={this.transmitFriendOnHover}
+          transmitTimelineData={this.transmitTimelineData}
+          component={TimelineSVG}
+        />
+      </div>
     </div>
   }
 

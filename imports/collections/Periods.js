@@ -8,6 +8,13 @@ if (Meteor.isServer) {
       fields: {createdAt: 0, updatedAt: 0}
     })
   })
+
+  Meteor.publish('periods/online', function() {
+    return Periods.find({finished: {$ne: true}}, {
+      sort: {createdAt: 1},
+      fields: {createdAt: 0, updatedAt: 0}
+    })
+  })
 }
 
 // index

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Timeline = React.createClass({
+const TimelineSVG = React.createClass({
 
   scale(time) {
     return (time - this.props.min) / 1000 / 30
@@ -54,10 +54,10 @@ const Timeline = React.createClass({
       preserveAspectRatio="none"
       style={{transform: 'rotateX(180deg)'}}
     >
-        {friends.map(this.renderFriend)}
+      {friends.map(this.renderFriend)}
     </svg>
   }
 
 })
 
-export default Timeline
+export default TimelineSVG
