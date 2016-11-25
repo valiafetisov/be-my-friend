@@ -4,7 +4,10 @@ import { Meteor } from 'meteor/meteor'
 const Login = React.createClass({
 
   getInitialState () {
-    return {error: ''}
+    return {
+      error: '',
+      loading: false
+    }
   },
 
   componentDidMount () {
@@ -65,6 +68,7 @@ const Login = React.createClass({
       </label>
       <label className="Login__submit">
         <input disabled={this.state.loading} type="submit" value="Log In" />
+        <img style={loadingStyle} src="/images/loading-circle.svg" />
       </label>
     </form>
   }
