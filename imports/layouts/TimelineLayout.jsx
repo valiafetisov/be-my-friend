@@ -1,6 +1,8 @@
 import React from 'react'
 import moment from 'moment'
 import TimelineContainer from '/imports/containers/TimelineContainer'
+import Timeline from '/imports/components/Timeline'
+import TimelineSVG from '/imports/components/TimelineSVG'
 
 const TimelineLayout = React.createClass({
 
@@ -58,6 +60,7 @@ const TimelineLayout = React.createClass({
       <TimelineContainer
         transmitFriendOnHover={this.transmitFriendOnHover}
         transmitTimelineData={this.transmitTimelineData}
+        container={Timeline}
       />
     </div>
   }

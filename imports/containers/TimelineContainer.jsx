@@ -33,7 +33,10 @@ const TimelineContainer = React.createClass({
 
   render() {
     if (!this.state) return null
-    return <Timeline {...this.props} {...this.state.res} />
+
+    const component = (!this.props.component) ? Timeline : this.props.component
+
+    return React.createElement(component, {...this.props, ...this.state.res})
   }
 
 })
