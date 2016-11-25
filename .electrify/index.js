@@ -19,7 +19,7 @@ app.on('ready', function() {
       'node-integration': false // node integration must to be off
     })
 
-    console.log('window', window)
+    // console.log('window', window)
 
     // window.once('ready-to-show', () => {
     //   window.loadURL(meteor_root_url)
@@ -30,7 +30,7 @@ app.on('ready', function() {
     setTimeout(function() {
       window.loadURL(meteor_root_url)
       window.show()
-    }, 5000)
+    }, 10000)
   });
 });
 

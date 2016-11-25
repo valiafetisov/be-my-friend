@@ -34,7 +34,6 @@ const Login = React.createClass({
 
     Meteor.call('loginToFacebook', this.state, (error, result) => {
       if (error) return this.setError(error.reason)
-      this.props.onLogin()
     })
   },
 
