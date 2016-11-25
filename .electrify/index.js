@@ -11,16 +11,26 @@ app.on('ready', function() {
 
     // creates a new electron window
     window = new browser({
-      title: "Be my friend",
-      frame: true,
-      resizable: true,
-      transparent: false,
-      width: 1200, height: 700,
+      title: 'Be my friend',
+      width: 1200, height: 600,
+      center: true,
+      show: false,
+      backgroundColor: '#222',
       'node-integration': false // node integration must to be off
-    });
+    })
+
+    console.log('window', window)
+
+    // window.once('ready-to-show', () => {
+    //   window.loadURL(meteor_root_url)
+    //   window.show()
+    // })
 
     // open up meteor root url
-    window.loadURL(meteor_root_url);
+    setTimeout(function() {
+      window.loadURL(meteor_root_url)
+      window.show()
+    }, 5000)
   });
 });
 

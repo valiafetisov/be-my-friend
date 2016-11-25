@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "meteor -p 60000 --settings ./configurations/local/settings.json"
+    "start": "meteor -p 60000 --settings ./configurations/local/settings.json",
+    "package": "rm -rf .electrify/.dist && electrify package"
   },
   "author": "Valia Fetisov",
   "license": "MIT",
