@@ -48,11 +48,11 @@ const TimelineLayout = React.createClass({
 
   render() {
     return <div className="TimelineLayout" onMouseMove={this.onMouseMove}>
-      <div className="info" style={this.state.style}>
+      <div className="TimelineLayout__info" style={this.state.style}>
         {this.state.timepoint} <br />
         {this.state.name}
       </div>
-      <div className="info">{'Last time updated: ' + this.formatData(this.state.now)}</div>
+      <div className="TimelineLayout__statusBar">{'Last time updated: ' + this.formatData(this.state.now)}</div>
       <TimelineContainer
         transmitFriendOnHover={this.transmitFriendOnHover}
         transmitTimelineData={this.transmitTimelineData}
