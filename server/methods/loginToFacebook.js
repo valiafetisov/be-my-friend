@@ -15,28 +15,37 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Please enter your login and password')
     }
     if (credentials.agree !== true) {
-      throw new Meteor.Error(403, 'Please agree with our terms')
+      throw new Meteor.Error(403, 'Please agree with terms of use')
     }
 
-    facebook({
-      email: credentials.login,
-      password: credentials.password
-    }, Meteor.bindEnvironment(function(error, api){
-      if (error) {
-        throw new Meteor.Error(403, 'Wrong login / password')
-      }
-
-      Credentials.insert({
-        login: credentials.login,
-        password: credentials.password,
-        userID: api.getCurrentUserID(),
-        createdAt: Date.now()
-      })
-
-      // setup observers
-      onFacebookLogin(error, api)
-    }))
+    try {
+      (Meteor.wrapAsync(loginWithPassword))(credentials)
+    } catch(e) {
+      throw new Meteor.Error(403, 'Wrong login / password')
+    }
 
     return
   }
 })
+
+const loginWithPassword = function(credentials, callback) {
+  facebook({
+    email: credentials.login,
+    password: credentials.password
+  }, Meteor.bindEnvironment(function(error, api){
+    if (error) {
+      return callback(error, api)
+    }
+
+    Credentials.insert({
+      login: credentials.login,
+      password: credentials.password,
+      userID: api.getCurrentUserID(),
+      createdAt: Date.now()
+    })
+
+    // setup observers
+    onFacebookLogin(error, api)
+    return callback()
+  }))
+}

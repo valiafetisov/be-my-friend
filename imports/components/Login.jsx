@@ -7,6 +7,10 @@ const Login = React.createClass({
     return {error: ''}
   },
 
+  componentDidMount () {
+    this.setState({ready: true})
+  },
+
   setError (error) {
     if (error == null) return
 
@@ -29,22 +33,27 @@ const Login = React.createClass({
       return this.setError('Please enter your login and password')
     }
     if (this.state.agree !== true) {
-      return this.setError('Please agree with our terms')
+      return this.setError('Please agree with terms of use')
     }
 
+    this.setState({loading: true})
     Meteor.call('loginToFacebook', this.state, (error, result) => {
+      this.setState({loading: false})
       if (error) return this.setError(error.reason)
     })
   },
 
   render () {
-    return <form className="Login" onSubmit={this.handleSubmit}>
+    const loginReadyStyle = (this.state.ready) ? {transform: 'translateY(0)'} : {}
+    const loadingStyle = (this.state.loading) ? {display: 'inline-block'} : {}
+
+    return <form className="Login" onSubmit={this.handleSubmit} style={loginReadyStyle}>
       <div className="Login__title">Please login</div>
       <div className="Login__subtitle">Use you Facebook account credentials</div>
       <div className="Login__error">{this.state.error}</div>
       <label className="Login__login">
         <div>Login</div>
-        <input type="text" autoFocus={true} onChange={(e) => this.setState({login: e.target.value})} />
+        <input type="text" autoFocus onChange={(e) => this.setState({login: e.target.value})} />
       </label>
       <label className="Login__password">
         <div>Password</div>
@@ -52,10 +61,10 @@ const Login = React.createClass({
       </label>
       <label className="Login__agree">
         <input type="checkbox" onChange={(e) => this.setState({agree: e.target.checked})} />
-        <div>I agree with terms of service</div>
+        <div>I realize that this program may violate Facebook terms of service. I wish to proceed on my own risk</div>
       </label>
       <label className="Login__submit">
-        <input type="submit" value="Log In" />
+        <input disabled={this.state.loading} type="submit" value="Log In" />
       </label>
     </form>
   }
