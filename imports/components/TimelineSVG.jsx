@@ -25,15 +25,6 @@ const TimelineSVG = React.createClass({
 
     return <g key={friend.userID} transform={transform} >
       {friend.periods.map(this.renderPeriod)}
-      <line
-        className='friend'
-        strokeWidth={this.barWidth}
-        onMouseOver={(e) => {if (this.props.transmitFriendOnHover) return this.props.transmitFriendOnHover(e, friend)}}
-        x1={this.barWidth}
-        x2={this.barWidth}
-        y1={this.scale(this.props.min)}
-        y2={this.scale(this.props.now)}
-      />
     </g>
   },
 

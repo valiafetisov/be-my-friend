@@ -4,6 +4,7 @@ import TimelineContainer from '/imports/containers/TimelineContainer'
 import OnlineReactiveContainer from '/imports/containers/OnlineReactiveContainer'
 import Timeline from '/imports/components/Timeline'
 import TimelineSVG from '/imports/components/TimelineSVG'
+import FriendsSVG from '/imports/components/FriendsSVG'
 
 const TimelineLayout = React.createClass({
 
@@ -25,7 +26,7 @@ const TimelineLayout = React.createClass({
   },
 
   transmitTimelineData({min, now}) {
-    const timestamp = this.state.offsetY * 1000 * 30 + min
+    const timestamp = now - this.state.offsetY * 1000 * 30
     this.setState({
       timepoint: this.formatData(timestamp),
       now
@@ -59,9 +60,10 @@ const TimelineLayout = React.createClass({
       </div>
       <div className="TimelineLayout__statusBar">{lastTimeUpdated}</div>
       <div className="TimelineLayout__svgs">
-        {/* <OnlineReactiveContainer /> */}
-        <TimelineContainer
+        <OnlineReactiveContainer
           transmitFriendOnHover={this.transmitFriendOnHover}
+        />
+        <TimelineContainer
           transmitTimelineData={this.transmitTimelineData}
           component={TimelineSVG}
         />

@@ -3,9 +3,9 @@ import { Meteor } from 'meteor/meteor'
 import { createContainer } from 'meteor/react-meteor-data'
 import Periods from '/imports/collections/Periods'
 import Friends from '/imports/collections/Friends'
-import OnlineSVG from '/imports/components/OnlineSVG'
+import FriendsSVG from '/imports/components/FriendsSVG'
 
-const OnlineReactiveContainer = createContainer(() => {
+const OnlineReactiveContainer = createContainer((props) => {
   const friendsSubscription = Meteor.subscribe('friends')
   const periodsSubscription = Meteor.subscribe('periods/online')
   const loading = !periodsSubscription.ready() || !friendsSubscription.ready()
@@ -28,8 +28,9 @@ const OnlineReactiveContainer = createContainer(() => {
 
   return {
     loading,
-    friends
+    friends,
+    ...props
   }
-}, OnlineSVG)
+}, FriendsSVG)
 
 export default OnlineReactiveContainer
