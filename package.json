@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "meteor -p 60000 --settings ./configurations/local/settings.json",
-    "package": "rm -rf .electrify/.dist && electrify package"
+    "package": "rm -rf .electrify/.dist && electrify package -- --icon=./public/electron/icon.icns"
   },
   "author": "Valia Fetisov",
   "license": "MIT",
