@@ -19,9 +19,6 @@ const startFriendsObservation = function(api) {
 
 const onNewEvent = function(event) {
   if (event.type === 'presence') {
-    event.status = (event.raw != null && event.raw.a === 2)
-      ? 'online'
-      : 'offline'
     updateFriendPeriod(event)
   }
   console.log('saveFriendsStatuses: event', event)
