@@ -58,7 +58,7 @@ const TimelineLayout = React.createClass({
         {this.state.name}
       </div>
       <div className="TimelineLayout__statusBar">{lastTimeUpdated}</div>
-      <div className="Timeline">
+      <div className="TimelineLayout__svgs">
         <OnlineReactiveContainer />
         <TimelineContainer
           transmitFriendOnHover={this.transmitFriendOnHover}
