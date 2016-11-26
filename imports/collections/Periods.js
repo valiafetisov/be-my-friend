@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor'
+import { Mongo } from 'meteor/mongo'
+
 const Periods = new Mongo.Collection('periods')
 
 // publish
@@ -20,7 +23,7 @@ if (Meteor.isServer) {
 // index
 Meteor.startup(function() {
   if (!Meteor.isServer) return
-  Periods._ensureIndex({"userID": 1, "firstActive": 1, "lastActive": 1})
+  Periods._ensureIndex({'userID': 1, 'firstActive': 1, 'lastActive': 1})
 })
 
 export default Periods

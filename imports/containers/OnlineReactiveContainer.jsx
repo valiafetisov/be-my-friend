@@ -9,15 +9,26 @@ const OnlineReactiveContainer = createContainer(() => {
   const friendsSubscription = Meteor.subscribe('friends')
   const periodsSubscription = Meteor.subscribe('periods/online')
   const loading = !periodsSubscription.ready() || !friendsSubscription.ready()
-  const friends = Friends.find({}, {sort: {fullName: 1}}).fetch()
-  const onlinePeriods = Periods.find({finished: {$ne: true}}, {sort: {createdAt: 1}}).fetch()
+  const friends = Friends.find({}, {sort: {fullName: 1}, fields: {fullName: 1, userID: 1}}).fetch()
+  let periods = Periods.find({finished: {$ne: true}}, {sort: {createdAt: 1}, fields: {userID: 1}}).fetch()
+
+  // if (Meteor.isServer) periods = []
+  // console.log('periods', periods)
 
   if (loading === true) return {loading}
 
+  const onlineIDs = periods.reduce((ids, period) => {
+    ids[period.userID] = true
+    return ids
+  }, {})
+  friends.map((friend, index) => {
+    friend.online = onlineIDs[friend.userID]
+    return friend
+  })
+
   return {
     loading,
-    friends,
-    periods: onlinePeriods
+    friends
   }
 }, OnlineSVG)
 

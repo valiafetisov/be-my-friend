@@ -4,29 +4,7 @@ const OnlineSVG = function(props) {
   if (!props.friends) return null
 
   const friends = props.friends
-  const periods = props.periods
   const barWidth = 100 / friends.length
-
-  let friendsIDs = {}
-  friends.forEach(function(friend, index) {
-    friendsIDs[friend.userID] = index
-  })
-
-  function getTransform(userID) {
-    const index = friendsIDs[userID]
-    return 'translate(' + (index * barWidth) + ', 0)'
-  }
-
-  function renderPeriod(period, index) {
-    return React.createElement(OnlineSvgPeriod, {
-      key: index,
-      period,
-      barWidth,
-      transform: getTransform(period.userID)
-    })
-  }
-
-  console.log('onlinePeriods', periods)
 
   return <svg
     className="OnlineSVG"
@@ -36,32 +14,52 @@ const OnlineSVG = function(props) {
     viewBox="0 0 100 100"
     preserveAspectRatio="none"
   >
-    {(periods === undefined)
-      ? ''
-      : periods.map(renderPeriod)
-    }
-    <line
-      className="OnlineSVG__horison"
-      strokeWidth={0.2}
-      x1={0}
-      x2={100}
-      y1={100}
-      y2={100}
-    />
+    {friends.map((friend, index) => {
+      return <OnlineSvgPeriod
+        key={index}
+        index={index}
+        online={friend.online}
+        barWidth={barWidth}
+      />
+    })}
   </svg>
 }
 
 const OnlineSvgPeriod = React.createClass({
 
+  getInitialState () {
+    return {ready: false}
+  },
+
+  componentDidMount () {
+    this.setState({ready: true})
+  },
+
   render() {
-    return <line
-      strokeWidth={this.props.barWidth}
-      x1={this.props.barWidth}
-      x2={this.props.barWidth}
-      y1={0}
-      y2={100}
-      transform={this.props.transform}
-    />
+    const shiftLeft = this.props.barWidth * (this.props.index + 1)
+    const shiftTop = (!this.props.online) ? -100 : 0
+    const style = (!this.state.ready) ? {} : {transform: 'translateY(' + shiftTop + '%)'}
+
+    return <g>
+      <line
+        className="OnlineSVG__online"
+        strokeWidth={this.props.barWidth}
+        x1={shiftLeft}
+        x2={shiftLeft}
+        y1={0}
+        y2={100}
+        style={style}
+      />
+      <line
+        className="OnlineSVG__process"
+        strokeWidth={this.props.barWidth}
+        x1={shiftLeft}
+        x2={shiftLeft}
+        y1={0}
+        y2={100}
+        style={style}
+      />
+    </g>
   }
 
 })

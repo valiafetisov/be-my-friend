@@ -4,6 +4,21 @@
 
   line
     stroke onlineGreen
+    transform translateY(-100%)
+    transition transform 1s cubic-bezier(0.19, 1, 0.22, 1)
 
   &__horison
     stroke rgba(white, 0) !important
+
+  &__online
+    // display none
+
+  &__process
+    display none
+    stroke white
+    stroke-dasharray 0.2, 10
+    stroke-dashoffset 10.2
+    animation dash 1000ms linear infinite
+    @keyframes dash
+      to
+        stroke-dashoffset 0
