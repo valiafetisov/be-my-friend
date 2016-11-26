@@ -58,6 +58,7 @@ const TimelineLayout = React.createClass({
         {this.state.timepoint} <br />
         {this.state.name}
       </div>
+      <div className="TimelineLayout__emptyMessage">Please leave this window open, and return back in a few hours</div>
       <div className="TimelineLayout__statusBar">{lastTimeUpdated}</div>
       <div className="TimelineLayout__svgs">
         <OnlineReactiveContainer
