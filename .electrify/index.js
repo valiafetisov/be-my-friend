@@ -1,10 +1,32 @@
-var app       = require('app');
+var app = require('app');
+var Menu = require('menu');
 var browser   = require('browser-window');
+var shell = require("shell");
 var electrify = require('electrify')(__dirname);
 
 var window    = null;
 
 app.on('ready', function() {
+
+  const template = [{
+    label: 'Be my friend',
+    submenu: [
+      {
+        label: 'About This Program',
+        click: () => shell.openExternal('https://valiafetisov.com/my-little-prism')
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Quit',
+        accelerator: 'CmdOrCtrl+Q',
+        click: app.quit
+      }
+    ]
+  }]
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
 
   // electrify start
   electrify.start(function(meteor_root_url) {
