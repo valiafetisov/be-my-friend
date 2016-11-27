@@ -5,13 +5,9 @@ import Login from '/imports/components/Login'
 const IsLoggedInLayout = function(props) {
   if (props.loading) return <div>loading</div>
 
-  return <div className="IsLoggedInLayout">
-    {
-      (props.latest)
-      ? <TimelineLayout />
-      : <Login />
-    }
-  </div>
+  return (props.latest)
+    ? <TimelineLayout />
+    : <Login />
 }
 
 export default IsLoggedInLayout
