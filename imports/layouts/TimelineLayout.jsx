@@ -67,6 +67,7 @@ const TimelineLayout = React.createClass({
         <TimelineContainer
           transmitTimelineData={this.transmitTimelineData}
           component={TimelineSVG}
+          interval={10000}
         />
       </div>
     </div>

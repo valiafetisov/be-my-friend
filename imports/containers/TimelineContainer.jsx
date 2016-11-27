@@ -7,7 +7,8 @@ const TimelineContainer = React.createClass({
 
   componentDidMount() {
     this.fetchData()
-    this.interval = setInterval(this.fetchData, 1000)
+    if (this.props.interval === undefined) return
+    this.interval = setInterval(this.fetchData, this.props.interval)
   },
 
   componentWillUnmount() {
