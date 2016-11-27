@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "meteor -p 60000 --settings ./configurations/local/settings.json",
-    "package": "path=./builds/$(date \"+%Y-%m-%d_%H-%M\") && mkdir $path && electrify package -o $path -- --icon=./public/electron/icon.icns && electron-installer-dmg $path'/Be My Friend-darwin-x64/Be My Friend.app' 'Be My Friend' --icon=./public/electron/icon.icns --out=$path && say packaged"
+    "package": "path=./builds/$(date \"+%Y-%m-%d_%H-%M\") && mkdir $path && electrify package -o $path -- --icon=./public/electron/icon.icns && electron-installer-dmg $path'/Be My Friend-darwin-x64/Be My Friend.app' 'Be My Friend' --icon=./public/electron/icon.icns --out=$path && say packaged",
+    "dump": "path=./dumps/$(date \"+%Y-%m-%d_%H-%M\") && mongodump --port 3001 --db meteor --out $path"
   },
   "author": "Valia Fetisov",
   "license": "MIT",
