@@ -3,6 +3,9 @@ var Menu = require('menu');
 var browser   = require('browser-window');
 var shell = require("shell");
 var electrify = require('electrify')(__dirname);
+var powerSaveBlocker = require('electron').powerSaveBlocker;
+
+powerSaveBlocker.start('prevent-app-suspension');
 
 var window    = null;
 
