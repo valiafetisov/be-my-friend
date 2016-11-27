@@ -12,7 +12,7 @@ var window    = null;
 app.on('ready', function() {
 
   const template = [{
-    label: 'Be my friend',
+    label: 'Be My Friend',
     submenu: [
       {
         label: 'About This Program',
