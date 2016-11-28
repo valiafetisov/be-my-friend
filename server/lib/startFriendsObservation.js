@@ -13,6 +13,7 @@ const startFriendsObservation = function(api) {
   })
   api.listen(Meteor.bindEnvironment(function(err, message, stopListening) {
     if (err) return console.error(err)
+    message.status = (Date.now() - message.timestamp > 2 * 60 * 1000) ? 'offline' : 'online'
     onNewEvent(message)
   }))
 }
@@ -42,7 +43,7 @@ const updateFriendPeriod = function(user) {
       lastActive: user.lastActive,
       finished: true
     }
-    if (user.lastActive - prev.firstActive < 10000) {
+    if (user.lastActive - prev.firstActive < 5000) {
       update.dot = true
     }
     return Periods.update(prev._id, {$set: update})
@@ -56,8 +57,10 @@ const updateFriendPeriod = function(user) {
     console.log("new period:\t", moment(user.lastActive).format('HH:mm:ss'), user.userID);
     return Periods.insert({
       userID: user.userID,
-      firstActive: user.lastActive - 5000,
+      firstActive: user.lastActive,
       lastActive: user.lastActive,
+      isBuddy: user.isBuddy,
+      statusType: user.statusType,
       createdAt: Date.now()
     })
   }
