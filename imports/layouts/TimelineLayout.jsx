@@ -12,7 +12,6 @@ const TimelineLayout = React.createClass({
     return {
       name: '',
       timepoint: '',
-      offsetY: '',
       style: {
         display: 'none'
       }
@@ -26,11 +25,7 @@ const TimelineLayout = React.createClass({
   },
 
   transmitTimelineData({min, now}) {
-    const timestamp = now - this.state.offsetY * 1000 * 30
-    this.setState({
-      timepoint: this.formatData(timestamp),
-      now
-    })
+    this.setState({now})
   },
 
   transmitFriendOnHover(e, friend) {
@@ -40,8 +35,12 @@ const TimelineLayout = React.createClass({
   },
 
   onMouseMove(e) {
+    const offsetY = e.nativeEvent.offsetY || 0
+    const now = this.state.now || Date.now()
+    const timestamp = now - offsetY * 1000 * 30
+
     this.setState({
-      offsetY: e.nativeEvent.offsetY,
+      timepoint: this.formatData(timestamp),
       style: {
         display: 'inline-block',
         top: e.nativeEvent.clientY,
