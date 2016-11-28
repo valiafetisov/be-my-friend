@@ -10,6 +10,7 @@ const TimelineLayout = React.createClass({
 
   getInitialState() {
     return {
+      className: '',
       name: '',
       timepoint: '',
       style: {
@@ -20,7 +21,7 @@ const TimelineLayout = React.createClass({
 
   formatData(timestamp) {
     return (timestamp)
-      ? moment(timestamp).format('DD.MM HH:mm:ss')
+      ? moment(timestamp).format('DD MMM HH:mm:ss')
       : ''
   },
 
@@ -36,15 +37,24 @@ const TimelineLayout = React.createClass({
 
   onMouseMove(e) {
     const offsetY = e.nativeEvent.offsetY || 0
+    const clientY = e.nativeEvent.clientY || 0
+    const clientX = e.nativeEvent.clientX || 0
     const now = this.state.now || Date.now()
-    const timestamp = now - offsetY * 1000 * 30
+
+    // calculate time at cursor
+    const timepoint = now - offsetY * 1000 * 30
+
+    // adjust position of the info box
+    let className = (clientX > window.innerWidth - 120) ? ' left' : ''
+    className += (clientY < 35) ? ' bottom' : ''
 
     this.setState({
-      timepoint: this.formatData(timestamp),
+      className,
+      timepoint: this.formatData(timepoint),
       style: {
         display: 'inline-block',
-        top: e.nativeEvent.clientY,
-        left: e.nativeEvent.clientX
+        top: clientY,
+        left: clientX
       }
     })
   },
@@ -53,9 +63,12 @@ const TimelineLayout = React.createClass({
     const lastTimeUpdated = (!this.state.now) ? '' : 'Last time updated: ' + this.formatData(this.state.now)
 
     return <div className="TimelineLayout" onMouseMove={this.onMouseMove}>
-      <div className="TimelineLayout__info" style={this.state.style}>
-        {this.state.timepoint} <br />
-        {this.state.name}
+      <div
+        className={'TimelineLayout__info' + this.state.className}
+        style={this.state.style}
+      >
+        <div className="TimelineLayout__oneLine">{this.state.timepoint}</div>
+        <div className="TimelineLayout__oneLine">{this.state.name}</div>
       </div>
       <div className="TimelineLayout__emptyMessage">Please leave this window open, and return back in a few hours</div>
       <div className="TimelineLayout__statusBar">{lastTimeUpdated}</div>

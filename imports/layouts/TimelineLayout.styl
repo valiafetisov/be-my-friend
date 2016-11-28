@@ -10,6 +10,9 @@
     min-height 100vh
     z-index 10
 
+  &__oneLine
+    white-space nowrap
+
   &__statusBar
   &__info
     position fixed
@@ -23,8 +26,17 @@
     color white
     z-index 15
     pointer-events none
-    width 100%
+    // width 100%
     transform translateY(-100%)
+
+    &.bottom
+      transform none
+    &.left
+      text-align right
+      transform translateY(-100%) translateX(-100%)
+    &.bottom.left
+      text-align right
+      transform translateX(-100%)
 
   &__statusBar
     // border-top 1px solid #c8c8c8
