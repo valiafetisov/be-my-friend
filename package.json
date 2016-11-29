@@ -12,12 +12,16 @@
   "license": "MIT",
   "dependencies": {
     "babel-runtime": "^6.18.0",
-    "facebook-chat-api": "^1.2.0",
+    "facebook-chat-api": "git+https://github.com/valiafetisov/facebook-chat-api.git",
     "moment": "^2.16.0",
     "node-cron": "^1.1.2",
     "react": "^15.4.0",
     "react-addons-pure-render-mixin": "^15.4.1",
     "react-dom": "^15.4.0",
     "react-mounter": "^1.2.0"
+  },
+  "devDependencies": {
+    "electrify": "^2.1.4",
+    "electron-installer-dmg": "^0.1.2"
   }
 }
