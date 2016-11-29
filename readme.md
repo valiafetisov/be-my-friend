@@ -5,6 +5,11 @@ Desktop application which let you record your friends' activity on Facebook (onl
 ![application screenshot](https://raw.githubusercontent.com/valiafetisov/be-my-friend/master/public/electron/screenshot-01.png)
 
 
+## Quick Start
+
+If you just want to use the app, download pre-packaged version for [Mac OS X](https://github.com/valiafetisov/be-my-friend/releases/)
+
+
 ## Development
 
 - install [node.js](https://nodejs.org/en/download/), [meteor.js](https://www.meteor.com/install)
