@@ -36,9 +36,9 @@ const TimelineLayout = React.createClass({
   },
 
   onMouseMove(e) {
-    const offsetY = e.nativeEvent.offsetY || 0
-    const clientY = e.nativeEvent.clientY || 0
-    const clientX = e.nativeEvent.clientX || 0
+    const offsetY = e.nativeEvent.offsetY || -1000
+    const clientY = e.nativeEvent.clientY || -1000
+    const clientX = e.nativeEvent.clientX || -1000
     const now = this.state.now || Date.now()
 
     // calculate time at cursor
@@ -59,10 +59,14 @@ const TimelineLayout = React.createClass({
     })
   },
 
+  onMouseLeave() {
+    this.setState({style: {display: '', top: -1000, left: -1000}})
+  },
+
   render() {
     const lastTimeUpdated = (!this.state.now) ? '' : 'Last time updated: ' + this.formatData(this.state.now)
 
-    return <div className="TimelineLayout" onMouseMove={this.onMouseMove}>
+    return <div className="TimelineLayout" onMouseMove={this.onMouseMove} onMouseLeave={this.onMouseLeave}>
       <div
         className={'TimelineLayout__info' + this.state.className}
         style={this.state.style}
