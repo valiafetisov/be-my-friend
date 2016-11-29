@@ -2,7 +2,6 @@ import React from 'react'
 import moment from 'moment'
 import TimelineContainer from '/imports/containers/TimelineContainer'
 import OnlineReactiveContainer from '/imports/containers/OnlineReactiveContainer'
-import Timeline from '/imports/components/Timeline'
 import TimelineSVG from '/imports/components/TimelineSVG'
 import FriendsSVG from '/imports/components/FriendsSVG'
 

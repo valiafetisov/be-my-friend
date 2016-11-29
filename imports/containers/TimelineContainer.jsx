@@ -1,7 +1,6 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import Periods from '/imports/collections/Periods'
-import Timeline from '/imports/components/Timeline'
 
 const TimelineContainer = React.createClass({
 
