@@ -22,11 +22,16 @@ const onNewEvent = function(event) {
   if (event.type === 'presence') {
     updateFriendPeriod(event)
   }
-  console.log('saveFriendsStatuses: event', event)
+  // console.log('saveFriendsStatuses: event', event)
 }
 
 const updateFriendPeriod = function(user) {
-  if ((user == null) || typeof user !== 'object') return
+  if (
+    user == null ||
+    typeof user !== 'object' ||
+    user.timestamp == null ||
+    user.userID == null
+  ) return
 
   let prev = Periods.findOne({userID: user.userID}, {sort: {lastActive: -1}})
   user.lastActive = user.timestamp
@@ -37,7 +42,7 @@ const updateFriendPeriod = function(user) {
   //
   if (user.status === 'offline') {
     if ((prev == null) || prev.finished === true) return
-    console.log("finished period:\t", moment(prev.firstActive).format('HH:mm:ss'), moment(user.lastActive).format('HH:mm:ss'), user.userID)
+    console.log('finished period:\t', moment(prev.firstActive).format('HH:mm:ss'), moment(user.lastActive).format('HH:mm:ss'), user.userID)
     let update = {
       updatedAt: Date.now(),
       lastActive: user.lastActive,
@@ -54,7 +59,7 @@ const updateFriendPeriod = function(user) {
   // add new period if previous is finished
   //
   if (prev == null || prev.finished === true) {
-    console.log("new period:\t", moment(user.lastActive).format('HH:mm:ss'), user.userID);
+    console.log('new period:\t\t', moment(user.lastActive).format('HH:mm:ss'), user.userID)
     return Periods.insert({
       userID: user.userID,
       firstActive: user.lastActive,
@@ -69,7 +74,7 @@ const updateFriendPeriod = function(user) {
   // friend still online:
   // update period if previous not finised
   //
-  console.log("updated period:\t", moment(prev.firstActive).format('HH:mm:ss'), moment(user.lastActive).format('HH:mm:ss'), user.userID)
+  console.log('updated period:\t', moment(prev.firstActive).format('HH:mm:ss'), moment(user.lastActive).format('HH:mm:ss'), user.userID)
   return Periods.update(prev._id, {
     $set: {
       lastActive: user.lastActive,
