@@ -11,7 +11,7 @@ const TimelineSVG = React.createClass({
     const to = this.scale(period.to)
 
     return <line
-      key={'index_' + index}
+      key={period._id}
       strokeWidth={this.barWidth}
       x1={this.barWidth}
       x2={this.barWidth}

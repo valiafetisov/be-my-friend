@@ -60,6 +60,7 @@ Meteor.methods({
 
         // create new period
         let ret = {
+          _id: period._id,
           from: period.firstActive,
           to: (period.finished !== true || period.lastActive == null)
             ? out.now
