@@ -1,6 +1,5 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
-import Periods from '/imports/collections/Periods'
 
 const TimelineContainer = React.createClass({
 
@@ -19,7 +18,7 @@ const TimelineContainer = React.createClass({
   },
 
   fetchData() {
-    Meteor.call('getActivityNormalized', null, (err, res) => {
+    Meteor.call('getActivityNormalized', this.props.from, this.props.to, (err, res) => {
       if (err != null) return console.error('TimelineContainer: getActivity: error:', err)
       this.setState({ res })
       if (this.props.transmitTimelineData) {
@@ -33,10 +32,8 @@ const TimelineContainer = React.createClass({
 
   render() {
     if (!this.state) return null
-
-    const component = (!this.props.component) ? Timeline : this.props.component
-
-    return React.createElement(component, {...this.props, ...this.state.res})
+    if (!this.props.component) return null
+    return React.createElement(this.props.component, {...this.props, ...this.state.res})
   }
 
 })
