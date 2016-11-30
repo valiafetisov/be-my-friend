@@ -3,49 +3,40 @@ import React from 'react'
 const TimelineSVG = React.createClass({
 
   scale(time) {
-    return (time - this.props.min) / 1000 / 30
+    return (time - this.props.from) / 1000 / 30
   },
 
   renderPeriod(period, index) {
-    const from = this.scale(period.from)
-    const to = this.scale(period.to)
-
+    const firstActive = this.scale(period.firstActive)
+    const lastActive = this.scale(period.lastActive)
+    const shift = this.barWidth * (this.props.friendsIDs[period.userID] + 1)
+    // console.log('this.props.friendsIDs[period.userID]', this.props.friendsIDs[period.userID])
     return <line
       key={period._id}
       strokeWidth={this.barWidth}
-      x1={this.barWidth}
-      x2={this.barWidth}
-      y1={from}
-      y2={to}
+      x1={shift}
+      x2={shift}
+      y1={firstActive}
+      y2={lastActive}
     />
   },
 
-  renderFriend(friend, index) {
-    const transform = "translate(" + this.barWidth * index + ", 0)"
-
-    return <g key={friend.userID} transform={transform} >
-      {friend.periods.map(this.renderPeriod)}
-    </g>
-  },
-
   render() {
-    const friends = this.props.friends
+    if (this.props.friends === undefined) return null
     const svgWidth = 100
-    const svgHeight = this.scale(this.props.now) - this.scale(this.props.min)
-    const moveUp = (-1) * this.scale(this.props.min)
+    const svgHeight = this.scale(this.props.to) - this.scale(this.props.from)
     const viewBox = '0 0' + ' ' + svgWidth + ' ' + svgHeight
-    this.barWidth = svgWidth / friends.length
+    this.barWidth = svgWidth / this.props.friends.length
 
     return <svg
-      className="Timeline"
+      className="TimelineSVG"
       xmlns="http://www.w3.org/2000/svg"
       width="100%"
       height={svgHeight + 'px'}
       viewBox={viewBox}
       preserveAspectRatio="none"
-      style={{transform: 'rotateX(180deg)'}}
     >
-      {friends.map(this.renderFriend)}
+      {this.props.periods.map(this.renderPeriod)}
     </svg>
   }
 

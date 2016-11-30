@@ -19,13 +19,13 @@ const TimelineContainer = React.createClass({
   },
 
   fetchData() {
-    Meteor.call('getActivity', null, (err, res) => {
+    Meteor.call('getActivityNormalized', null, (err, res) => {
       if (err != null) return console.error('TimelineContainer: getActivity: error:', err)
       this.setState({ res })
       if (this.props.transmitTimelineData) {
         this.props.transmitTimelineData({
-          min: res.min,
-          now: res.now
+          from: res.from,
+          to: res.to
         })
       }
     })

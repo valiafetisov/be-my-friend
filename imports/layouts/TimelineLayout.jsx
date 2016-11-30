@@ -24,8 +24,8 @@ const TimelineLayout = React.createClass({
       : ''
   },
 
-  transmitTimelineData({min, now}) {
-    this.setState({now})
+  transmitTimelineData({from, to}) {
+    this.setState({to})
   },
 
   transmitFriendOnHover(e, friend) {
@@ -38,10 +38,9 @@ const TimelineLayout = React.createClass({
     const offsetY = e.nativeEvent.offsetY || -1000
     const clientY = e.nativeEvent.clientY || -1000
     const clientX = e.nativeEvent.clientX || -1000
-    const now = this.state.now || Date.now()
 
     // calculate time at cursor
-    const timepoint = now - offsetY * 1000 * 30
+    const timepoint = this.state.to - offsetY * 1000 * 30
 
     // adjust position of the info box
     let className = (clientX > window.innerWidth - 120) ? ' left' : ''
@@ -63,7 +62,7 @@ const TimelineLayout = React.createClass({
   },
 
   render() {
-    const lastTimeUpdated = (!this.state.now) ? '' : 'Last time updated: ' + this.formatData(this.state.now)
+    const lastTimeUpdated = (!this.state.to) ? '' : 'Last time updated: ' + this.formatData(this.state.to)
 
     return <div className="TimelineLayout" onMouseMove={this.onMouseMove} onMouseLeave={this.onMouseLeave}>
       <div

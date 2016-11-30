@@ -1,68 +1,62 @@
+import { Meteor } from 'meteor/meteor'
 import Friends from '/imports/collections/Friends'
 import Periods from '/imports/collections/Periods'
-import moment from 'moment'
 
 Meteor.methods({
-  getActivityNormalized(limits) {
-    console.time('getActivity')
+  getActivityNormalized(from, to) {
+    console.time('getActivityNormalized')
 
     let out = {
-      friends: [],
-      now: Date.now()
+      to: to || Date.now()
     }
 
-    // find all friends
-    out.friends = Friends.find({}, {
-      sort: {fullName: 1},
-      fields: {
-        userID: 1,
-        fullName: 1
-      }
-    }).fetch()
-    if (out.friends.length <= 0) return out
-
-    // if (limits == null) {
-    //   limits = {}
-    // }
-    // if (limits.start == null) {
-    //   limits.stop = now
-    //   limits.start = limits.stop - (24*60*60*1000)
-    // }
-    // if (limits.stop == null) {
-    //   limits.stop = moment(limits.start).add(1,'days').valueOf()
-    // }
-
-    // get all associated periods
-    let ids = out.friends.map(each => each.userID)
-    out.periods = Periods.find({
-      userID: {$in: ids},
-      firstActive: {$ne: NaN},
-      lastActive: {$ne: NaN}
-      // lastActive: {
-      //   $gte: limits.start
-      //   $lt: limits.stop
-      // }
-      // finished: true
-    }, {
+    //
+    // get periods
+    //
+    var query = {
+      lastActive: (from == null) ? {$ne: NaN} : {$gte: from},
+      firstActive: (to == null) ? {$ne: NaN} : {$lt: out.to}
+    }
+    const periods = Periods.find(query, {
       sort: {lastActive: 1},
-      fields: {
-        userID: 1,
-        firstActive: 1,
-        lastActive: 1,
-        finished: 1
-      }
+      fields: {_id: 1, userID: 1, firstActive: 1, lastActive: 1, finished: 1}
     }).fetch()
-    if (out.periods <= 0) return out
+    // console.log('getActivityNormalized: periods', periods)
+    //
+    // clear periods
+    //
+    out.periods = periods.map(function(period) {
+      return {
+        ...period,
+        lastActive: (period.finished !== true || period.lastActive == null)
+          ? out.to
+          : period.lastActive
+      }
+    })
+    if (periods.length <= 0) return out
 
+    //
     // add statistics to output
-    out.length = out.periods.length
-    out.min = out.periods[0].firstActive
-    out.max = out.periods[out.periods.length - 1].lastActive
+    //
+    out.length = periods.length
+    // out.to = (to == null) ? periods[periods.length - 1].lastActive : to
+    out.from = (from == null) ? periods[0].firstActive : from
 
-    // out.friends.sort (a, b)-> a.summ - b.summ
-    // out.friends = out.friends.slice(out.friends.length - 200)
+    //
+    // find all friends
+    //
+    const friends = Friends.find({}, {
+      sort: {fullName: 1},
+      fields: {_id: 1, userID: 1, fullName: 1}
+    }).fetch()
+    out.friends = friends
 
-    console.timeEnd('getActivity')
+    out.friendsIDs = friends.reduce((ids, friend, index) => {
+      ids[friend.userID] = index
+      return ids
+    }, {})
+
+    console.timeEnd('getActivityNormalized')
     return out
   }
 })
