@@ -3,19 +3,19 @@ import Friends from '/imports/collections/Friends'
 import Periods from '/imports/collections/Periods'
 
 Meteor.methods({
-  getActivityNormalized(from, to) {
+  getActivityNormalized(partStart, partStop) {
     console.time('getActivityNormalized')
 
     let out = {
-      to: to || Date.now()
+      partStop: partStop || Date.now()
     }
 
     //
     // get periods
     //
     var query = {
-      lastActive: (from == null) ? {$ne: NaN} : {$gte: from},
-      firstActive: (to == null) ? {$ne: NaN} : {$lt: out.to}
+      lastActive: (partStart == null) ? {$ne: NaN} : {$gte: partStart},
+      firstActive: (partStop == null) ? {$ne: NaN} : {$lt: out.partStop}
     }
     const periods = Periods.find(query, {
       sort: {lastActive: 1},
@@ -29,18 +29,17 @@ Meteor.methods({
       return {
         ...period,
         lastActive: (period.finished !== true || period.lastActive == null)
-          ? out.to
+          ? out.partStop
           : period.lastActive
       }
     })
-    if (periods.length <= 0) return out
 
     //
     // add statistics to output
     //
-    out.length = periods.length
-    // out.to = (to == null) ? periods[periods.length - 1].lastActive : to
-    out.from = (from == null) ? periods[0].firstActive : from
+    // out.partStop = (partStop == null) ? periods[periods.length - 1].lastActive : partStop
+    const firstActive = (periods.length > 0) ? periods[0].firstActive : 0
+    out.partStart = (partStart == null) ? firstActive : partStart
 
     //
     // find all friends

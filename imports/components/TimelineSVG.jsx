@@ -10,7 +10,7 @@ const TimelineSVG = React.createClass({
     const firstActive = this.scale(period.firstActive)
     const lastActive = this.scale(period.lastActive)
     const shift = this.barWidth * (this.props.friendsIDs[period.userID] + 1)
-    // console.log('this.props.friendsIDs[period.userID]', this.props.friendsIDs[period.userID])
+
     return <line
       key={period._id}
       strokeWidth={this.barWidth}
@@ -22,9 +22,10 @@ const TimelineSVG = React.createClass({
   },
 
   render() {
-    if (this.props.friends === undefined) return null
+    if (this.props.friends == null) return null
+
     const svgWidth = 100
-    const svgHeight = this.scale(this.props.to)
+    const svgHeight = this.scale(this.props.partStop)
     const viewBox = '0 0' + ' ' + svgWidth + ' ' + svgHeight
     this.barWidth = svgWidth / this.props.friends.length
 
@@ -36,7 +37,11 @@ const TimelineSVG = React.createClass({
       viewBox={viewBox}
       preserveAspectRatio="none"
     >
-      {this.props.periods.map(this.renderPeriod)}
+      {
+        (this.props.periods == null)
+          ? ''
+          : this.props.periods.map(this.renderPeriod)
+      }
     </svg>
   }
 
