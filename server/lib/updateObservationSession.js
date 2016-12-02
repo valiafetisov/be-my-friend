@@ -1,8 +1,13 @@
 import Sessions from '/imports/collections/Sessions'
 import Periods from '/imports/collections/Periods'
 
-const updateObservationSession = function(error, success, callback) {
+const updateObservationSession = function(error, success) {
   const now = Date.now()
+
+  // return if last check was less than second ago
+  if (this.previewsCallTime != null && now - this.previewsCallTime < 1000) return
+
+  this.previewsCallTime = now
   const latestSession = Sessions.findOne({}, {sort: {createdAt: -1}})
 
   //
@@ -42,7 +47,7 @@ const updateObservationSession = function(error, success, callback) {
       lastActive: now,
       createdAt: now
     })
-    return (callback) ? callback() : null
+    return
   }
 
   //
@@ -74,7 +79,7 @@ const updateObservationSession = function(error, success, callback) {
       lastActive: now,
       createdAt: now
     })
-    return (callback) ? callback() : null
+    return
   }
 
   //
@@ -89,7 +94,7 @@ const updateObservationSession = function(error, success, callback) {
       error: false
     }
   })
-  return (callback) ? callback() : null
+  return
 }
 
 export default updateObservationSession

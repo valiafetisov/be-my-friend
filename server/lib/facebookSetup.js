@@ -56,10 +56,9 @@ const onFacebookLogin = function(error, api) {
   // keep track of when did you abserve your friends
   // and run updates only after cleanups
   //
-  updateObservationSession(error, api, function() {
-    startFriendsObservation(api)
-    updateFriendsList(api)
-  })
+  updateObservationSession(error, api)
+  startFriendsObservation(api)
+  updateFriendsList(api)
 }
 
 export {loginToFacebook, onFacebookLogin}

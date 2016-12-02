@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { Meteor } from 'meteor/meteor'
 import Periods from '/imports/collections/Periods'
+import updateObservationSession from '/server/lib/updateObservationSession'
 
 //
 // setup friends observation
@@ -20,6 +21,7 @@ const startFriendsObservation = function(api) {
 
 const onNewEvent = function(event) {
   if (event.type === 'presence') {
+    updateObservationSession()
     updateFriendPeriod(event)
   }
   // console.log('saveFriendsStatuses: event', event)
