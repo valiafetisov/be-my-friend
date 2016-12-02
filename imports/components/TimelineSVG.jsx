@@ -1,9 +1,10 @@
 import React from 'react'
+import Const from '/imports/libs/Const'
 
 const TimelineSVG = React.createClass({
 
   scale(time) {
-    return (time - this.props.partStart) / 1000 / 30
+    return (time - this.props.partStart) / Const.millisecondsPerPixel
   },
 
   renderPeriod(period, index) {

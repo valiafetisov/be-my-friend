@@ -2,6 +2,7 @@ import React from 'react'
 import TimelinePartsLayout from '/imports/layouts/TimelinePartsLayout'
 import OnlineReactiveContainer from '/imports/containers/OnlineReactiveContainer'
 import Utils from '/imports/libs/Utils'
+import Const from '/imports/libs/Const'
 
 const TimelineLayout = React.createClass({
 
@@ -32,7 +33,7 @@ const TimelineLayout = React.createClass({
     const clientX = e.nativeEvent.clientX || -1000
 
     // calculate time at cursor
-    const timepoint = this.state.timelineStop - offsetY * 1000 * 30
+    const timepoint = this.state.timelineStop - offsetY * Const.millisecondsPerPixel
 
     // adjust position of the info box
     let infoClassName = (clientX > window.innerWidth - 120) ? ' left' : ''
