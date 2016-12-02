@@ -1,11 +1,11 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 
-const TimelineContainer = React.createClass({
+const TimelinePartContainer = React.createClass({
 
   componentDidMount() {
     this.fetchData()
-    if (this.props.interval === undefined) return
+    if (this.props.interval == null) return
     this.interval = setInterval(this.fetchData, this.props.interval)
   },
 
@@ -18,15 +18,9 @@ const TimelineContainer = React.createClass({
   },
 
   fetchData() {
-    Meteor.call('getActivityNormalized', this.props.from, this.props.to, (err, res) => {
+    Meteor.call('getActivityNormalized', this.props.partStart, this.props.partStop, (err, res) => {
       if (err != null) return console.error('TimelineContainer: getActivity: error:', err)
       this.setState({ res })
-      if (this.props.transmitTimelineData) {
-        this.props.transmitTimelineData({
-          from: res.from,
-          to: res.to
-        })
-      }
     })
   },
 
@@ -38,4 +32,4 @@ const TimelineContainer = React.createClass({
 
 })
 
-export default TimelineContainer
+export default TimelinePartContainer

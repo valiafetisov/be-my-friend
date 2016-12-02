@@ -1,36 +1,28 @@
 import React from 'react'
-import moment from 'moment'
-import TimelineContainer from '/imports/containers/TimelineContainer'
+import TimelinePartsLayout from '/imports/layouts/TimelinePartsLayout'
 import OnlineReactiveContainer from '/imports/containers/OnlineReactiveContainer'
-import TimelineSVG from '/imports/components/TimelineSVG'
-import FriendsSVG from '/imports/components/FriendsSVG'
+import Utils from '/imports/libs/Utils'
 
 const TimelineLayout = React.createClass({
 
   getInitialState() {
     return {
-      className: '',
-      name: '',
+      infoClassName: '',
+      fullName: '',
       timepoint: '',
-      style: {
+      infoStyle: {
         display: 'none'
       }
     }
   },
 
-  formatData(timestamp) {
-    return (timestamp)
-      ? moment(timestamp).format('DD MMM HH:mm:ss')
-      : ''
+  receiveTimelineLimits({timelineStop, timelineStart}) {
+    if (timelineStop) this.setState({timelineStop})
   },
 
-  transmitTimelineData({from, to}) {
-    this.setState({to})
-  },
-
-  transmitFriendOnHover(e, friend) {
+  receiveFriendOnHover(e, friend) {
     this.setState({
-      name: friend.fullName
+      fullName: friend.fullName
     })
   },
 
@@ -40,16 +32,16 @@ const TimelineLayout = React.createClass({
     const clientX = e.nativeEvent.clientX || -1000
 
     // calculate time at cursor
-    const timepoint = this.state.to - offsetY * 1000 * 30
+    const timepoint = this.state.timelineStop - offsetY * 1000 * 30
 
     // adjust position of the info box
-    let className = (clientX > window.innerWidth - 120) ? ' left' : ''
-    className += (clientY < 35) ? ' bottom' : ''
+    let infoClassName = (clientX > window.innerWidth - 120) ? ' left' : ''
+    infoClassName += (clientY < 35) ? ' bottom' : ''
 
     this.setState({
-      className,
-      timepoint: this.formatData(timepoint),
-      style: {
+      infoClassName,
+      timepoint: Utils.formatData(timepoint),
+      infoStyle: {
         display: 'inline-block',
         top: clientY,
         left: clientX
@@ -62,26 +54,24 @@ const TimelineLayout = React.createClass({
   },
 
   render() {
-    const lastTimeUpdated = (!this.state.to) ? '' : 'Last time updated: ' + this.formatData(this.state.to)
+    const timelineStopFormatted = (!this.state.timelineStop) ? '' : 'Last time updated: ' + Utils.formatData(this.state.timelineStop)
 
     return <div className="TimelineLayout" onMouseMove={this.onMouseMove} onMouseLeave={this.onMouseLeave}>
       <div
-        className={'TimelineLayout__info' + this.state.className}
-        style={this.state.style}
+        className={'TimelineLayout__info' + this.state.infoClassName}
+        style={this.state.infoStyle}
       >
         <div className="TimelineLayout__oneLine">{this.state.timepoint}</div>
-        <div className="TimelineLayout__oneLine">{this.state.name}</div>
+        <div className="TimelineLayout__oneLine">{this.state.fullName}</div>
       </div>
-      <div className="TimelineLayout__emptyMessage">Please leave this window open, and return back in a few hours</div>
-      <div className="TimelineLayout__statusBar">{lastTimeUpdated}</div>
+      <div className="TimelineLayout__emptyMessage">Please leave this window open, and return back in few hours</div>
+      <div className="TimelineLayout__statusBar">{timelineStopFormatted}</div>
       <div className="TimelineLayout__svgs">
         <OnlineReactiveContainer
-          transmitFriendOnHover={this.transmitFriendOnHover}
+          transmitFriendOnHover={this.receiveFriendOnHover}
         />
-        <TimelineContainer
-          transmitTimelineData={this.transmitTimelineData}
-          component={TimelineSVG}
-          interval={10000}
+        <TimelinePartsLayout
+          transmitTimelineLimits={this.receiveTimelineLimits}
         />
       </div>
     </div>

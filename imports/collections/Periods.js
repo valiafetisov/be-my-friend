@@ -18,6 +18,14 @@ if (Meteor.isServer) {
       fields: {createdAt: 0, updatedAt: 0}
     })
   })
+
+  Meteor.publish('periods/first', function() {
+    return Periods.find({firstActive: {$ne: NaN}}, {
+      sort: {firstActive: 1},
+      limit: 1,
+      fields: {firstActive: 1}
+    })
+  })
 }
 
 // index

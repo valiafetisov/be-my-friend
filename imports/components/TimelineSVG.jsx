@@ -3,7 +3,7 @@ import React from 'react'
 const TimelineSVG = React.createClass({
 
   scale(time) {
-    return (time - this.props.from) / 1000 / 30
+    return (time - this.props.partStart) / 1000 / 30
   },
 
   renderPeriod(period, index) {
@@ -24,7 +24,7 @@ const TimelineSVG = React.createClass({
   render() {
     if (this.props.friends === undefined) return null
     const svgWidth = 100
-    const svgHeight = this.scale(this.props.to) - this.scale(this.props.from)
+    const svgHeight = this.scale(this.props.to)
     const viewBox = '0 0' + ' ' + svgWidth + ' ' + svgHeight
     this.barWidth = svgWidth / this.props.friends.length
 
