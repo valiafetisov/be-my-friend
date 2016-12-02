@@ -9,6 +9,10 @@ const TimelinePartContainer = React.createClass({
     this.interval = setInterval(this.fetchData, this.props.interval)
   },
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.interval == null) clearInterval(this.interval)
+  },
+
   componentWillUnmount() {
     if (this.interval) clearInterval(this.interval)
   },
