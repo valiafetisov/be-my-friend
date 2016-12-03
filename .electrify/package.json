@@ -1,6 +1,6 @@
 {
   "name": "Be My Friend",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "index.js",
   "dependencies": {
     "electrify": "2.1.4"
