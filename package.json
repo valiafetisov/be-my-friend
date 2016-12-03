@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "meteor",
-    "package": "rm -rf .electrify/.dist && electrify package -- --icon=./public/electron/icon.icns && path=./builds/$(date \"+%Y-%m-%d_%H-%M\") && mkdir $path && electron-installer-dmg '.electrify/.dist/Be My Friend-darwin-x64/Be My Friend.app' 'Be My Friend' --icon=./public/electron/icon.icns --out=$path && say packaged",
+    "build:mac": "rm -rf .electrify/.dist && electrify package -- --icon=./public/electron/icon.icns && path=./builds/$(date \"+%Y-%m-%d_%H-%M\") && mkdir $path && appdmg ./build-options.json $path'/Be My Friend.dmg' && say packaged",
     "dump": "path=./dumps/$(date \"+%Y-%m-%d_%H-%M\") && mongodump --port 3001 --db meteor --out $path"
   },
   "author": "Valia Fetisov",
@@ -21,7 +21,6 @@
     "react-mounter": "^1.2.0"
   },
   "devDependencies": {
-    "electrify": "^2.1.4",
-    "electron-installer-dmg": "^0.1.2"
+    "appdmg": "^0.4.5"
   }
 }

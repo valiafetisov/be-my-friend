@@ -4,6 +4,7 @@ var browser   = require('browser-window');
 var shell = require("shell");
 var electrify = require('electrify')(__dirname);
 var powerSaveBlocker = require('electron').powerSaveBlocker;
+var dialog = require('electron').dialog;
 
 powerSaveBlocker.start('prevent-app-suspension');
 
@@ -36,7 +37,7 @@ app.on('ready', function() {
 
     // creates a new electron window
     window = new browser({
-      title: 'Be my friend',
+      title: 'Be My Friend',
       width: 1200, height: 600,
       center: true,
       show: false,

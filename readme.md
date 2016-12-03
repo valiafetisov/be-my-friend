@@ -21,6 +21,5 @@ If you just want to use the app, download pre-packaged version for [Mac OS X](ht
 
 ## Packaging app into electron
 
-- install electrify `npm install electrify -g`
-- install electron-installer-dmg `npm install electron-installer-dmg -g`
-- `npm run package`
+- install electrify globally `npm install electrify -g`
+- run `npm run build:mac`

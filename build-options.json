@@ -1,0 +1,15 @@
+{
+  "title": "Be My Friend",
+  "icon": "./public/electron/dmg.icns",
+  "icon-size": 80,
+  "window": {
+    "size": {
+      "width": 450,
+      "height": 280
+    }
+  },
+  "contents": [
+    { "x": 150, "y": 110, "type": "file", "path": "./.electrify/.dist/Be My Friend-darwin-x64/Be My Friend.app" },
+    { "x": 300, "y": 110, "type": "link", "path": "/Applications" }
+  ]
+}
