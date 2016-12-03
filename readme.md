@@ -15,11 +15,11 @@ If you just want to use the app, download pre-packaged version for [Mac OS X](ht
 - install [node.js](https://nodejs.org/en/download/), [meteor.js](https://www.meteor.com/install)
 - clone the repository and `cd` into application directory
 - install dependancies with `npm install`
-- start app with `npm start`
+- start app with `npm run dev` (`npm start` will start app within electron)
 - open [localhost:3000](http://localhost:3000)
 
 
 ## Packaging app into electron
 
-- install electrify globally `npm install electrify -g`
+- install development dependancies
 - run `npm run build:mac`

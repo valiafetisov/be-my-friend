@@ -1,17 +1,9 @@
-var app = require('app');
-var Menu = require('menu');
-var browser   = require('browser-window');
-var shell = require("shell");
-var electrify = require('electrify')(__dirname);
-var powerSaveBlocker = require('electron').powerSaveBlocker;
-var dialog = require('electron').dialog;
+const { app, Menu, BrowserWindow, shell, powerSaveBlocker } = require('electron')
+const electrify = require('electrify')(__dirname)
 
-powerSaveBlocker.start('prevent-app-suspension');
-
-var window    = null;
+powerSaveBlocker.start('prevent-app-suspension')
 
 app.on('ready', function() {
-
   const template = [{
     label: 'Be My Friend',
     submenu: [
@@ -34,9 +26,8 @@ app.on('ready', function() {
 
   // electrify start
   electrify.start(function(meteor_root_url) {
-
     // creates a new electron window
-    window = new browser({
+    const win = new BrowserWindow({
       title: 'Be My Friend',
       width: 1200, height: 600,
       center: true,
@@ -45,45 +36,26 @@ app.on('ready', function() {
       'node-integration': false // node integration must to be off
     })
 
-    // console.log('window', window)
-
-    // window.once('ready-to-show', () => {
-    //   window.loadURL(meteor_root_url)
-    //   window.show()
-    // })
-
     // open up meteor root url
     setTimeout(function() {
-      window.loadURL(meteor_root_url)
-      window.show()
+      win.loadURL(meteor_root_url)
+      win.show()
     }, 10000)
-  });
-});
-
+  })
+})
 
 app.on('window-all-closed', function() {
-  app.quit();
-});
-
+  app.quit()
+})
 
 app.on('will-quit', function terminate_and_quit(event) {
-
-  // if electrify is up, cancel exiting with `preventDefault`,
-  // so we can terminate electrify gracefully without leaving child
-  // processes hanging in background
-  if(electrify.isup() && event) {
-
-    // holds electron termination
-    event.preventDefault();
-
-    // gracefully stops electrify
-    electrify.stop(function(){
-
-      // and then finally quit app
-      app.quit();
-    });
+  if (electrify.isup() && event) {
+    event.preventDefault()
+    electrify.stop(function() {
+      app.quit()
+    })
   }
-});
+})
 
 //
 // =============================================================================
@@ -91,7 +63,7 @@ app.on('will-quit', function terminate_and_quit(event) {
 // the methods bellow can be called seamlessly from your Meteor's
 // client and server code, using:
 //
-//    Electrify.call('methodname', [..args..], callback);
+//    Electrify.call('methodname', [..args..], callback)
 //
 // ATENTION:
 //    From meteor, you can only call these methods after electrify is fully
@@ -99,15 +71,15 @@ app.on('will-quit', function terminate_and_quit(event) {
 //
 //
 // Electrify.startup(function(){
-//   Electrify.call(...);
-// });
+//   Electrify.call(...)
+// })
 //
 // =============================================================================
 //
 // electrify.methods({
 //   'method.name': function(name, done) {
 //     // do things... and call done(err, arg1, ..., argN)
-//     done(null);
+//     done(null)
 //   }
-// });
+// })
 //

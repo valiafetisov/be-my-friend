@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "meteor",
+    "start": "electrify",
+    "dev": "meteor",
     "build:mac": "rm -rf .electrify/.dist && electrify package -- --icon=./public/electron/icon.icns && path=./builds/$(date \"+%Y-%m-%d_%H-%M\") && mkdir $path && appdmg ./build-options.json $path'/Be My Friend.dmg' && say packaged",
     "dump": "path=./dumps/$(date \"+%Y-%m-%d_%H-%M\") && mongodump --port 3001 --db meteor --out $path"
   },
@@ -21,6 +22,7 @@
     "react-mounter": "^1.2.0"
   },
   "devDependencies": {
-    "appdmg": "^0.4.5"
+    "appdmg": "^0.4.5",
+    "electrify": "git+https://github.com/valiafetisov/electrify.git"
   }
 }
