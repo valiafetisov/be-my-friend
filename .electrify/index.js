@@ -1,29 +1,11 @@
-const { app, Menu, BrowserWindow, shell, powerSaveBlocker } = require('electron')
+const { app, BrowserWindow, powerSaveBlocker } = require('electron')
+const { setMenu } = require('./setMenu.js')
 const electrify = require('electrify')(__dirname)
 
+// prevent suspending the app
 powerSaveBlocker.start('prevent-app-suspension')
 
 app.on('ready', function() {
-  const template = [{
-    label: 'Be My Friend',
-    submenu: [
-      {
-        label: 'About This Program',
-        click: () => shell.openExternal('https://valiafetisov.com/my-little-prism')
-      },
-      {
-        type: 'separator'
-      },
-      {
-        label: 'Quit',
-        accelerator: 'CmdOrCtrl+Q',
-        click: app.quit
-      }
-    ]
-  }]
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
-
   // electrify start
   electrify.start(function(meteor_root_url) {
     // creates a new electron window
@@ -35,6 +17,9 @@ app.on('ready', function() {
       backgroundColor: '#222',
       'node-integration': false // node integration must to be off
     })
+
+    // set application menu
+    setMenu(win)
 
     // open up meteor root url
     setTimeout(function() {
