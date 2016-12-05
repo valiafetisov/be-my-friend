@@ -11,9 +11,7 @@ const TimelineLayout = React.createClass({
       infoClassName: '',
       fullName: '',
       timepoint: '',
-      infoStyle: {
-        display: 'none'
-      }
+      infoStyle: {}
     }
   },
 
@@ -43,15 +41,10 @@ const TimelineLayout = React.createClass({
       infoClassName,
       timepoint: Utils.formatData(timepoint),
       infoStyle: {
-        display: 'inline-block',
         top: clientY,
         left: clientX
       }
     })
-  },
-
-  onMouseLeave() {
-    this.setState({style: {display: '', top: -1000, left: -1000}})
   },
 
   render() {
