@@ -1,6 +1,8 @@
 const { app, BrowserWindow, powerSaveBlocker } = require('electron')
 const { setMenu } = require('./setMenu.js')
 const electrify = require('electrify')(__dirname)
+const { join } = require('path')
+const { format } = require('url')
 
 // prevent suspending the app
 powerSaveBlocker.start('prevent-app-suspension')
@@ -9,22 +11,30 @@ app.on('ready', function() {
   // electrify start
   electrify.start(function(meteor_root_url) {
     // creates a new electron window
-    const win = new BrowserWindow({
-      title: 'Be My Friend',
-      width: 1200, height: 600,
-      center: true,
-      show: false,
-      backgroundColor: '#222',
-      'node-integration': false // node integration must to be off
-    })
-
-    // set application menu
-    setMenu(win)
-
-    // open up meteor root url
     setTimeout(function() {
+
+      const win = new BrowserWindow({
+        title: 'Be My Friend',
+        width: 1200, height: 600,
+        center: true,
+        backgroundColor: '#222',
+        'node-integration': false // node integration must to be off
+      })
+
+      // show loading page
+      // const loadingPage = format({
+      //   protocol: 'file',
+      //   slashes: true,
+      //   pathname: join(__dirname, 'loading.html')
+      // })
+      // win.loadURL(loadingPage)
+
+      // set application menu
+      setMenu(win)
+
+      // open up meteor root url
       win.loadURL(meteor_root_url)
-      win.show()
+
     }, 10000)
   })
 })
