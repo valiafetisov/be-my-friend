@@ -11,8 +11,11 @@ const TimelineSVG = React.createClass({
     const firstActive = this.scale(period.firstActive)
     const lastActive = this.scale(period.lastActive)
     const shift = this.barWidth * (this.props.friendsIDs[period.userID] + 1)
+    let className = (period.isBuddy === true) ? 'buddy' : ''
+    className += (period.statusType !== undefined) ? ' statusType' + period.statusType : ''
 
     return <line
+      className={className}
       key={period._id}
       strokeWidth={this.barWidth}
       x1={shift}

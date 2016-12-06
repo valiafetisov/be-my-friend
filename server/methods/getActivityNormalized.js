@@ -19,7 +19,7 @@ Meteor.methods({
     }
     const periods = Periods.find(query, {
       sort: {lastActive: 1},
-      fields: {_id: 1, userID: 1, firstActive: 1, lastActive: 1, finished: 1}
+      fields: {_id: 1, userID: 1, firstActive: 1, lastActive: 1, finished: 1, isBuddy: 1, statusType: 1}
     }).fetch()
     // console.log('getActivityNormalized: periods', periods)
     //
