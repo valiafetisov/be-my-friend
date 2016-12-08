@@ -64,7 +64,7 @@ const updateObservationSession = function(error, success) {
       unfinishedPeriods.forEach(period => {
         const status = Periods.update(period._id, {
           $set: {
-            lastActive: latestSession.lastActive,
+            lastActive: period.updatedAt || period.createdAt,
             updatedAt: now,
             finished: true
           }
