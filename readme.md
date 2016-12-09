@@ -2,7 +2,7 @@
 
 Desktop application which let you record your friends' activity on Facebook (online/offline statuses).
 
-![application screenshot](https://raw.githubusercontent.com/valiafetisov/be-my-friend/master/public/electron/screenshot-02.png)
+![application screenshot](https://raw.githubusercontent.com/valiafetisov/be-my-friend/master/public/electron/screenshot-03.png)
 
 
 ## Quick Start
